@@ -3,10 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Warranty — AG Doors Garage Door Services</title>
+<title>About Us | AG Doors Garage Door Services</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
+<style>
+  .placeholder-card{
+    border:1.5px dashed var(--line);
+    background: var(--charcoal-2);
+    border-radius:8px;
+    padding:40px 28px;
+    text-align:center;
+  }
+  .placeholder-card .hex{ margin:0 auto 18px; }
+  .placeholder-card h4{ color:var(--silver-light); font-size:1.05rem; margin-bottom:8px; }
+  .placeholder-card p{ color:var(--grey-dim); font-size:0.85rem; max-width:320px; margin:0 auto; }
+  .placeholder-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  @media (max-width:880px){ .placeholder-grid{ grid-template-columns:1fr; } }
+</style>
 </head>
 <body>
 
@@ -20,9 +34,9 @@
       </div>
     </a>
     <nav class="links">
-      <a href="about.html">About</a>
+      <a href="about.html" class="active">About</a>
       <a href="services.html">Services</a>
-      <a href="warranty.html" class="active">Warranty</a>
+      <a href="warranty.html">Warranty</a>
       <a href="service-area.html">Service Area</a>
       <a href="faq.html">FAQ</a>
       <a href="contact.html">Contact</a>
@@ -42,9 +56,9 @@
   <button type="button" class="mobile-menu-close" id="menuCloseBtn" aria-label="Close menu">&times;</button>
   <div class="mobile-menu-links">
     <a href="index.html">Home</a>
-    <a href="about.html">About</a>
+    <a href="about.html" class="active">About</a>
     <a href="services.html">Services</a>
-    <a href="warranty.html" class="active">Warranty</a>
+    <a href="warranty.html">Warranty</a>
     <a href="service-area.html">Service Area</a>
     <a href="faq.html">FAQ</a>
     <a href="contact.html">Contact</a>
@@ -68,96 +82,99 @@
 
   <section class="page-hero">
     <div class="wrap">
-      <div class="breadcrumb"><a href="index.html">Home</a> / Warranty</div>
-      <h1>Warranty guarantee on every job</h1>
-      <p>All workmanship and parts come with a warranty, so if something's not right after we leave, we make it right — no charge, no argument.</p>
+      <div class="breadcrumb"><a href="index.html">Home</a> / About</div>
+      <h1>Local hands, honest work</h1>
+      <p>AG Doors is a local garage door team serving the Gold Coast and surrounding areas — real people, real workmanship, and hundreds of satisfied customers along the way.</p>
     </div>
   </section>
 
-  <!-- COVERAGE -->
+  <!-- OUR STORY -->
   <section>
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">What's Covered</span>
-        <h2>Straightforward warranty, no fine print games</h2>
+        <span class="kicker">Our Story</span>
+        <h2>Built on doing the job right</h2>
+        <p>AG Doors started with a simple idea: garage door repairs shouldn't be confusing, overpriced, or take a week to sort out. We're a local team who turn up, diagnose the actual problem, and fix it properly the first time — backed by a warranty so you're never left wondering if it'll hold up.</p>
       </div>
-      <div class="coverage-grid">
-        <div class="coverage-card">
-          <div class="hex"><span class="hex-icon"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.6 5.6L2 19l3 3 7.1-7.1a4 4 0 0 0 5.6-5.6L14.3 12l-2.3-2.3z"/></svg></span></div>
-          <h4>Workmanship</h4>
-          <p>If a repair or install doesn't hold up the way it should, we come back and fix it at no extra charge.</p>
-        </div>
-        <div class="coverage-card">
-          <div class="hex"><span class="hex-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.04 1.56V21a2 2 0 0 1-4 0v-.09A1.7 1.7 0 0 0 8.96 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.56-1.04H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.6 8.96a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1.04-1.56V3a2 2 0 0 1 4 0v.09a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9c.14.62.6 1.13 1.56 1.04H21a2 2 0 0 1 0 4h-.09a1.7 1.7 0 0 0-1.56 1.04z"/></svg></span></div>
-          <h4>Parts</h4>
-          <p>Motors, springs, cables and hardware we supply are covered against manufacturing faults.</p>
-        </div>
-        <div class="coverage-card">
-          <div class="hex"><span class="hex-icon"><svg viewBox="0 0 24 24"><path d="M12 2l7 4v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6z"/></svg></span></div>
-          <h4>Fully Insured</h4>
-          <p>Every technician on the tools is fully insured, so you're covered on top of the warranty itself.</p>
-        </div>
+      <div class="wrap" style="padding:0; max-width:760px; margin:0;">
+        <p style="color:var(--grey); font-size:1rem; margin-bottom:16px;">Today, we've helped hundreds of satisfied customers get their garage doors working the way they should — from a quick spring replacement to a full motor upgrade. Whatever's going on with your door, chances are we've fixed one just like it before.</p>
+        <p style="color:var(--grey); font-size:1rem;">We're proudly local — not a call centre routing you to whoever's available, but a team who knows the area and shows up when we say we will.</p>
       </div>
     </div>
   </section>
 
   <div class="track"><svg viewBox="0 0 1180 26" preserveAspectRatio="none"><line x1="0" y1="13" x2="1180" y2="13" stroke="#2a2d33" stroke-width="1"/></svg></div>
 
-  <!-- HOW IT WORKS -->
+  <!-- WHY LOCALS CHOOSE US -->
   <section style="background:var(--charcoal); border-bottom:1px solid var(--line);">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">How A Claim Works</span>
-        <h2>Three steps, no hassle</h2>
+        <span class="kicker">Why Locals Choose Us</span>
+        <h2>What working with us actually looks like</h2>
       </div>
       <div class="coverage-grid">
         <div class="coverage-card">
-          <div class="hex"><span class="hex-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span></div>
-          <h4>1. Call or text us</h4>
-          <p>Tell us what's happening and roughly when the original work was done.</p>
+          <div class="hex"><span class="hex-icon"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></span></div>
+          <h4>Local &amp; Trusted</h4>
+          <p>Based in the area we service — not a distant call centre dispatching whoever's free.</p>
+        </div>
+        <div class="coverage-card">
+          <div class="hex"><span class="hex-icon"><svg viewBox="0 0 24 24"><path d="M12 2l7 4v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6z"/></svg></span></div>
+          <h4>Fully Insured</h4>
+          <p>Every technician on the tools is fully insured, so you're covered from the moment we arrive.</p>
         </div>
         <div class="coverage-card">
           <div class="hex"><span class="hex-icon"><svg viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg></span></div>
-          <h4>2. We schedule a look</h4>
-          <p>A technician comes back out — same-day where possible — to assess it in person.</p>
+          <h4>Same-Day Repairs</h4>
+          <p>Urgent problems get urgent attention — same-day callouts whenever possible.</p>
+        </div>
+        <div class="coverage-card">
+          <div class="hex"><span class="hex-icon"><svg viewBox="0 0 24 24"><path d="M12 2l9 4.5v5c0 5-3.6 9-9 10.5-5.4-1.5-9-5.5-9-10.5v-5z"/><path d="M9 12l2 2 4-4"/></svg></span></div>
+          <h4>Warranty On Every Job</h4>
+          <p>All workmanship and parts are backed by our warranty — so the job is done once, properly.</p>
+        </div>
+        <div class="coverage-card">
+          <div class="hex"><span class="hex-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5c0-1.4 1.3-2.5 3-2.5s3 1.1 3 2.3c0 3-6 1.7-6 4.7 0 1.2 1.3 2.3 3 2.3s3-1.1 3-2.5"/></svg></span></div>
+          <h4>Honest Pricing</h4>
+          <p>Competitive quotes, explained in plain terms before any work starts — no surprise call-out fees.</p>
         </div>
         <div class="coverage-card">
           <div class="hex"><span class="hex-icon"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M12 3l7 4v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V7z"/></svg></span></div>
-          <h4>3. We fix it, free</h4>
-          <p>If it falls under warranty, it's fixed at no cost to you — no arguments, no fine print surprises.</p>
+          <h4>Hundreds Of Happy Customers</h4>
+          <p>A track record built job by job, across hundreds of homes on the Gold Coast and beyond.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
+  <!--
+    FUTURE CONTENT — PHOTOS & REVIEWS
+    When real job photos and customer reviews are ready, replace the
+    two placeholder-card blocks below. Suggested approach:
+      - Photos: swap the placeholder-card for a simple image grid
+        (reuse .service-grid or a new .photo-grid with <img> tags)
+      - Reviews: swap the placeholder-card for a repeated card
+        component styled like .coverage-card, one per review,
+        with the customer's name/suburb and their quote
+  -->
   <section>
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Common Questions</span>
-        <h2>Warranty FAQ</h2>
+        <span class="kicker">Coming Soon</span>
+        <h2>See our work, hear from our customers</h2>
+        <p>We're building out a gallery of completed jobs and real customer reviews right here — check back soon to see the difference we've made for homes across the Gold Coast.</p>
       </div>
-      <div class="faq-list">
-        <details class="faq-item" open>
-          <summary>What exactly does the warranty cover?</summary>
-          <p>Both the labour on any repair or installation we carry out, and the parts we supply as part of that job — motors, springs, cables, rollers and related hardware. If something we fitted fails or a repair doesn't hold, we come back and put it right.</p>
-        </details>
-        <details class="faq-item">
-          <summary>How long does the warranty last?</summary>
-          <p>Coverage length can vary a little depending on the specific job and parts involved — your technician will confirm the exact warranty period for your job on the invoice at the time of service.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Does the warranty cover pre-existing parts we didn't install?</summary>
-          <p>The warranty covers the workmanship and parts involved in the job we performed. Unrelated existing components that weren't part of that repair or install aren't covered — we'll always flag if we notice something separate that looks like it needs attention.</p>
-        </details>
-        <details class="faq-item">
-          <summary>What if the fault turns out to be something else?</summary>
-          <p>We'll be upfront with you. If it's unrelated to our original work — for example, accidental damage or a separate part failing — we'll explain what's going on and quote fairly for any additional work, rather than assuming it's covered.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Is there a call-out fee for a warranty visit?</summary>
-          <p>No — if the issue is covered under warranty, there's no charge for the visit or the fix.</p>
-        </details>
+      <div class="placeholder-grid">
+        <div class="placeholder-card">
+          <div class="hex"><span class="hex-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M21 16l-5-5-4 4-3-3-6 6"/></svg></span></div>
+          <h4>Photo Gallery</h4>
+          <p>Coming soon — real photos from completed jobs across our service area.</p>
+        </div>
+        <div class="placeholder-card">
+          <div class="hex"><span class="hex-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3 6 6 1-4.5 4.5 1 6-5.5-3-5.5 3 1-6L3 9l6-1z"/></svg></span></div>
+          <h4>Customer Reviews</h4>
+          <p>Coming soon — hear directly from the customers we've helped.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -165,9 +182,9 @@
   <!-- CTA -->
   <section class="cta" style="padding-top:0;">
     <div class="wrap">
-      <span class="kicker">Something Not Right?</span>
-      <h2>If we fitted it and it's playing up, we'll sort it.</h2>
-      <p>Call or text us with your details and roughly when the original job was done.</p>
+      <span class="kicker">Ready To Experience It Yourself?</span>
+      <h2>Let's get your garage door sorted.</h2>
+      <p>Call or text now — we'll ask a few quick questions and get a technician on the way.</p>
       <div class="phone-big">0411 419 533</div>
       <div class="cta-buttons">
         <a href="tel:0411419533" class="call-btn">Call Now</a>
