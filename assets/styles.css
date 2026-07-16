@@ -1,8 +1,31 @@
 /* ============================================================
    AG DOORS — SHARED STYLESHEET
    Used by: index.html, services.html, warranty.html,
-            service-area.html, contact.html
+            service-area.html, contact.html, faq.html,
+            privacy-policy.html, terms-conditions.html
    ============================================================ */
+
+/* ---------- Smooth cross-page transitions ----------
+   Native browser feature (Chrome/Edge/Safari 18.2+) — gives a
+   soft cross-fade when navigating between pages on this site.
+   Firefox and older browsers simply ignore this and navigate
+   normally, so nothing ever breaks. No JavaScript required. */
+@view-transition{
+  navigation: auto;
+}
+
+/* Keep the header from crossfading with the rest of the page —
+   it's identical on every page, so let it stay put and morph
+   smoothly instead of flashing out and back in. */
+header{ view-transition-name: site-header; }
+
+@media (prefers-reduced-motion: reduce){
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*){
+    animation: none !important;
+  }
+}
 
 :root{
   --black: #0a0a0c;
@@ -189,8 +212,9 @@ nav.links a:hover, nav.links a.active{ color: var(--gold-light); }
   border:none;
   cursor:pointer;
   font-family:'Inter',sans-serif;
+  transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
 }
-.call-btn:hover{ filter:brightness(1.06); }
+.call-btn:hover{ filter:brightness(1.06); transform: translateY(-1px); }
 
 /* ---------- Mobile hamburger + slide-in menu ---------- */
 .hamburger-btn{
@@ -358,8 +382,9 @@ nav.links a:hover, nav.links a.active{ color: var(--gold-light); }
   text-transform:uppercase;
   padding:13px 24px;
   border-radius:3px;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
-.btn-outline:hover{ border-color: var(--gold-dim); color: var(--gold-light); }
+.btn-outline:hover{ border-color: var(--gold-dim); color: var(--gold-light); background: rgba(201,154,61,0.06); transform: translateY(-1px); }
 
 .trust-row{
   display:grid;
@@ -502,9 +527,9 @@ section{ padding: 92px 0; }
 .service-card{
   background: var(--charcoal);
   padding: 34px 30px;
-  transition: background 0.2s ease;
+  transition: background 0.25s ease, transform 0.25s ease;
 }
-.service-card:hover{ background: #191c21; }
+.service-card:hover{ background: #191c21; transform: translateY(-3px); }
 .service-card .hex{ margin-bottom:22px; }
 .service-card h3{
   font-size:1.05rem;
@@ -636,7 +661,9 @@ section{ padding: 92px 0; }
   background: var(--charcoal-2);
   border-radius:6px;
   padding:28px;
+  transition: transform 0.25s ease, border-color 0.25s ease;
 }
+.coverage-card:hover{ transform: translateY(-3px); border-color: var(--gold-dim); }
 .coverage-card .hex{ --s:52px; margin-bottom:18px; }
 .coverage-card h4{ color: var(--silver-light); font-size:1rem; margin-bottom:8px; }
 .coverage-card p{ color: var(--grey); font-size:0.88rem; }
@@ -733,7 +760,9 @@ section{ padding: 92px 0; }
   padding:7px 14px;
   border-radius:20px;
   font-family:'Inter',sans-serif;
+  transition: border-color 0.2s ease, color 0.2s ease;
 }
+.suburb-chips span:hover{ border-color: var(--gold-dim); color: var(--gold-light); }
 .map-embed{
   border:1px solid var(--line);
   border-radius:8px;
@@ -978,4 +1007,29 @@ a:focus-visible, button:focus-visible{
   .nav > .call-btn{ padding:10px; }
   .hero h1{ font-size: 2.1rem; }
   .wrap{ padding: 0 18px; }
+}
+
+/* ============================================================
+   SCROLL-REVEAL ANIMATIONS
+   Classes toggled by assets/animations.js as elements enter
+   the viewport. Falls back to fully visible if JS or
+   IntersectionObserver is unavailable, and is skipped
+   entirely for users who prefer reduced motion.
+   ============================================================ */
+.reveal-on-scroll{
+  opacity:0;
+  transform: translateY(22px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal-on-scroll.revealed{
+  opacity:1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .reveal-on-scroll{
+    opacity:1;
+    transform:none;
+    transition:none;
+  }
 }
