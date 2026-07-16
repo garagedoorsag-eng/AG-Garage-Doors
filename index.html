@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AG Doors — Garage Door Repairs, Brisbane &amp; Gold Coast</title>
+<title>AG Doors — Garage Door Repairs, Gold Coast &amp; Surroundings</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
@@ -33,6 +33,16 @@
 </header>
 
 <main id="top">
+
+  <div class="confirm-banner" id="confirmBanner">
+    <div class="wrap confirm-banner-inner">
+      <span>
+        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        Thanks — your enquiry has been sent. We'll be in touch shortly.
+      </span>
+      <button type="button" id="closeBanner" aria-label="Close">&times;</button>
+    </div>
+  </div>
 
   <!-- HERO -->
   <section class="hero">
@@ -81,7 +91,7 @@
         <div class="phone-note">Available for urgent same-day callouts</div>
         <div class="area">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
-          Proudly servicing <strong>Brisbane &amp; Gold Coast</strong> and surrounding areas
+          Proudly servicing <strong>Gold Coast &amp; Surroundings</strong>
         </div>
       </div>
     </div>
@@ -193,7 +203,7 @@
       <div class="area-left">
         <div class="hex"><span class="hex-icon"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></span></div>
         <div>
-          <h4>Brisbane &amp; Gold Coast</h4>
+          <h4>Gold Coast &amp; Surroundings</h4>
           <p>Proudly servicing surrounding areas too — <a href="service-area.html" style="color:var(--gold-light); text-decoration:underline;">see the full coverage map</a>.</p>
         </div>
       </div>
@@ -242,6 +252,23 @@
     </div>
   </div>
 </footer>
+
+<script>
+(function(){
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('sent') === 'true'){
+    var banner = document.getElementById('confirmBanner');
+    banner.classList.add('visible');
+    // clean the URL so refreshing doesn't re-show the banner
+    var cleanUrl = window.location.pathname;
+    window.history.replaceState({}, document.title, cleanUrl);
+    setTimeout(function(){ banner.classList.remove('visible'); }, 8000);
+  }
+  document.getElementById('closeBanner').addEventListener('click', function(){
+    document.getElementById('confirmBanner').classList.remove('visible');
+  });
+})();
+</script>
 
 </body>
 </html>

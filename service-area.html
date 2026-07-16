@@ -38,7 +38,7 @@
     <div class="wrap">
       <div class="breadcrumb"><a href="index.html">Home</a> / Service Area</div>
       <h1>Where we work</h1>
-      <p>Proudly local to South East Queensland — servicing Brisbane and the Gold Coast, plus the areas in between.</p>
+      <p>Proudly servicing the Gold Coast &amp; Surroundings — from Beenleigh down to Tweed Heads South.</p>
     </div>
   </section>
 
@@ -47,15 +47,15 @@
     <div class="wrap" style="display:grid; grid-template-columns: 1fr 1fr; gap:56px; align-items:center;">
       <div>
         <span class="kicker" style="color:var(--gold-light); font-size:0.75rem; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; display:block; margin-bottom:14px;">Local &amp; Trusted</span>
-        <h2 style="font-size:clamp(1.7rem,3vw,2.2rem); color:var(--silver-light); font-weight:600; margin-bottom:18px;">Brisbane &amp; Gold Coast, door to door</h2>
-        <p style="color:var(--grey); margin-bottom:18px;">We're based in South East Queensland and cover the full stretch between Brisbane and the Gold Coast — including most suburbs in between. If you're just outside these zones, give us a call anyway; we often still make it work.</p>
+        <h2 style="font-size:clamp(1.7rem,3vw,2.2rem); color:var(--silver-light); font-weight:600; margin-bottom:18px;">Gold Coast &amp; Surroundings, door to door</h2>
+        <p style="color:var(--grey); margin-bottom:18px;">We cover the Gold Coast &amp; Surroundings — the full run from Beenleigh, through the entire Gold Coast, and across the border to Tweed Heads South. If you're just outside these zones, give us a call anyway; we often still make it work.</p>
         <div class="badges" style="margin-top:28px;">
           <span><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg> Local &amp; Trusted</span>
           <span><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 4v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6z"/></svg> Fully Insured</span>
         </div>
       </div>
       <div class="map-embed">
-        <iframe src="https://www.google.com/maps?q=Brisbane+and+Gold+Coast,+QLD,+Australia&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="AG Doors service area map — Brisbane to Gold Coast"></iframe>
+        <iframe src="https://www.google.com/maps?q=Beenleigh+to+Tweed+Heads+South&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="AG Doors service area map — Beenleigh to Tweed Heads South"></iframe>
       </div>
     </div>
   </section>
@@ -70,25 +70,9 @@
         <h2>Don't see your suburb? Call us anyway</h2>
         <p>This list isn't exhaustive — it's a guide to the areas we cover most often. If you're nearby but not listed, we can very likely still help.</p>
       </div>
-      <div class="region-grid">
-        <div class="suburb-panel">
-          <h4>BRISBANE &amp; SURROUNDS</h4>
-          <div class="suburb-chips">
-            <span>Brisbane CBD</span><span>South Brisbane</span><span>New Farm</span>
-            <span>Chermside</span><span>Indooroopilly</span><span>Carindale</span>
-            <span>Mount Gravatt</span><span>Sunnybank</span><span>Wynnum</span>
-            <span>Springfield</span><span>North Lakes</span><span>Ipswich</span>
-          </div>
-        </div>
-        <div class="suburb-panel">
-          <h4>GOLD COAST &amp; SURROUNDS</h4>
-          <div class="suburb-chips">
-            <span>Surfers Paradise</span><span>Southport</span><span>Robina</span>
-            <span>Broadbeach</span><span>Burleigh Heads</span><span>Coomera</span>
-            <span>Nerang</span><span>Helensvale</span><span>Mermaid Beach</span>
-            <span>Palm Beach</span>
-          </div>
-        </div>
+      <div class="suburb-panel">
+        <h4>GOLD COAST &amp; SURROUNDINGS</h4>
+        <div class="suburb-chips" id="allChips"></div>
       </div>
     </div>
   </section>
@@ -127,6 +111,21 @@
     </div>
   </div>
 </footer>
+
+<script src="assets/suburbs.js"></script>
+<script>
+(function(){
+  function renderChips(containerId, list){
+    var container = document.getElementById(containerId);
+    list.forEach(function(name){
+      var span = document.createElement('span');
+      span.textContent = name;
+      container.appendChild(span);
+    });
+  }
+  renderChips('allChips', window.AG_SUBURBS);
+})();
+</script>
 
 </body>
 </html>

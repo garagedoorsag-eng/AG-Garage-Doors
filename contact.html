@@ -52,7 +52,7 @@
           <!-- FormSubmit configuration -->
           <input type="hidden" name="_subject" value="New Enquiry — AG Doors Website">
           <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_next" value="thanks.html">
+          <input type="hidden" name="_next" value="index.html?sent=true">
           <!-- honeypot spam trap: real visitors never see or fill this field -->
           <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
 
@@ -64,9 +64,10 @@
             <label for="phone">Phone Number</label>
             <input type="tel" id="phone" name="phone" required>
           </div>
-          <div class="form-field">
+          <div class="form-field autocomplete-wrap">
             <label for="suburb">Suburb</label>
-            <input type="text" id="suburb" name="suburb" placeholder="e.g. Chermside">
+            <input type="text" id="suburb" name="suburb" placeholder="Start typing your suburb..." autocomplete="off">
+            <div class="autocomplete-list" id="suburbList"></div>
           </div>
           <div class="form-field">
             <label for="message">What's going on with your door?</label>
@@ -97,7 +98,7 @@
           <div class="hex"><span class="hex-icon"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></span></div>
           <div>
             <h4>Service Area</h4>
-            <p>Brisbane &amp; Gold Coast, and everywhere in between. <a href="service-area.html" style="color:var(--gold-light); text-decoration:underline;">See full coverage</a></p>
+            <p>Gold Coast &amp; Surroundings. <a href="service-area.html" style="color:var(--gold-light); text-decoration:underline;">See full coverage</a></p>
           </div>
         </div>
         <div class="row">
@@ -132,6 +133,79 @@
     </div>
   </div>
 </footer>
+<script src="assets/suburbs.js"></script>
+<script>
+(function(){
+  var suburbs = window.AG_SUBURBS;
+
+  var input = document.getElementById('suburb');
+  var list = document.getElementById('suburbList');
+  var activeIndex = -1;
+
+  function closeList(){
+    list.innerHTML = '';
+    list.style.display = 'none';
+    activeIndex = -1;
+  }
+
+  function renderList(matches){
+    list.innerHTML = '';
+    if (!matches.length){ closeList(); return; }
+    matches.slice(0, 8).forEach(function(name, i){
+      var item = document.createElement('div');
+      item.textContent = name;
+      item.className = 'autocomplete-item';
+      item.addEventListener('mousedown', function(e){
+        e.preventDefault();
+        input.value = name;
+        closeList();
+      });
+      list.appendChild(item);
+    });
+    list.style.display = 'block';
+  }
+
+  input.addEventListener('input', function(){
+    var q = input.value.trim().toLowerCase();
+    if (!q){ closeList(); return; }
+    var matches = suburbs.filter(function(s){
+      return s.toLowerCase().indexOf(q) !== -1;
+    });
+    renderList(matches);
+  });
+
+  input.addEventListener('keydown', function(e){
+    var items = list.querySelectorAll('.autocomplete-item');
+    if (!items.length) return;
+    if (e.key === 'ArrowDown'){
+      e.preventDefault();
+      activeIndex = (activeIndex + 1) % items.length;
+    } else if (e.key === 'ArrowUp'){
+      e.preventDefault();
+      activeIndex = (activeIndex - 1 + items.length) % items.length;
+    } else if (e.key === 'Enter'){
+      if (activeIndex > -1){
+        e.preventDefault();
+        input.value = items[activeIndex].textContent;
+        closeList();
+        return;
+      }
+    } else if (e.key === 'Escape'){
+      closeList();
+      return;
+    } else {
+      return;
+    }
+    items.forEach(function(el, i){
+      el.classList.toggle('active', i === activeIndex);
+    });
+  });
+
+  document.addEventListener('click', function(e){
+    if (e.target !== input) closeList();
+  });
+})();
+</script>
 
 </body>
 </html>
