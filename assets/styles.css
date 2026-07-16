@@ -1164,3 +1164,69 @@ a:focus-visible, button:focus-visible{
     height:120px;
   }
 }
+
+/* ============================================================
+   FLOATING ACTION BUTTONS — Call / Enquire
+   Fixed to the bottom-right corner on every page, always
+   reachable while scrolling. A slow, gentle glow pulse draws
+   the eye without being distracting.
+   ============================================================ */
+.floating-actions{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:150;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  align-items:flex-end;
+}
+.float-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position:relative;
+}
+.float-btn svg{ width:24px; height:24px; position:relative; z-index:2; }
+.float-btn:hover{ transform: translateY(-3px) scale(1.05); }
+
+.float-btn.call{
+  background: linear-gradient(155deg, var(--gold-light), var(--gold));
+  color:#141414;
+}
+.float-btn.call::before{
+  content:"";
+  position:absolute;
+  inset:-4px;
+  border-radius:50%;
+  border:1.5px solid var(--gold-light);
+  opacity:0.6;
+  animation: floatPulse 2.6s ease-out infinite;
+}
+
+.float-btn.enquire{
+  background: linear-gradient(155deg, var(--charcoal-2), var(--charcoal));
+  color: var(--gold-light);
+  border:1.5px solid var(--gold-dim);
+}
+
+@keyframes floatPulse{
+  0%{ transform: scale(1); opacity:0.55; }
+  70%{ transform: scale(1.35); opacity:0; }
+  100%{ transform: scale(1.35); opacity:0; }
+}
+
+@media (max-width: 480px){
+  .floating-actions{ right:16px; bottom:16px; gap:12px; }
+  .float-btn{ width:50px; height:50px; }
+  .float-btn svg{ width:21px; height:21px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .float-btn.call::before{ animation:none; }
+}
