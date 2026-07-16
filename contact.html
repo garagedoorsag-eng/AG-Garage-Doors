@@ -48,7 +48,14 @@
       <!-- FORM -->
       <div>
         <h3 style="font-size:1.3rem; color:var(--silver-light); margin-bottom:24px;">Send an Enquiry</h3>
-        <form id="contactForm">
+        <form id="contactForm" action="https://formsubmit.co/garagedoorsag@gmail.com" method="POST">
+          <!-- FormSubmit configuration -->
+          <input type="hidden" name="_subject" value="New Enquiry — AG Doors Website">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_next" value="thanks.html">
+          <!-- honeypot spam trap: real visitors never see or fill this field -->
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
           <div class="form-field">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" required>
@@ -66,7 +73,7 @@
             <textarea id="message" name="message" required placeholder="e.g. Door won't open, motor is dead, spring snapped..."></textarea>
           </div>
           <button type="submit" class="call-btn" style="width:100%; justify-content:center; padding:15px;">Send Enquiry</button>
-          <p class="form-note">Submitting opens your email app with these details pre-filled, ready to send. For anything urgent, please call or text 0411 419 533 directly instead.</p>
+          <p class="form-note">Submitting sends this straight to our inbox — no email app required on your end. For anything urgent, please call or text 0411 419 533 directly instead.</p>
         </form>
       </div>
 
@@ -125,25 +132,6 @@
     </div>
   </div>
 </footer>
-
-<script>
-document.getElementById('contactForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  var name = document.getElementById('name').value;
-  var phone = document.getElementById('phone').value;
-  var suburb = document.getElementById('suburb').value;
-  var message = document.getElementById('message').value;
-  var subject = encodeURIComponent('Website enquiry from ' + name);
-  var body = encodeURIComponent(
-    'Name: ' + name + '\n' +
-    'Phone: ' + phone + '\n' +
-    'Suburb: ' + suburb + '\n\n' +
-    'Message:\n' + message
-  );
-  // PLACEHOLDER EMAIL — replace with your real business email address
-  window.location.href = 'mailto:info@agdoors.com.au?subject=' + subject + '&body=' + body;
-});
-</script>
 
 </body>
 </html>
