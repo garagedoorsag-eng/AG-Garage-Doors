@@ -77,7 +77,7 @@
       <!-- FORM -->
       <div>
         <h3 style="font-size:1.3rem; color:var(--silver-light); margin-bottom:24px;">Send an Enquiry</h3>
-        <form id="contactForm" action="https://formsubmit.co/garagedoorsag@gmail.com" method="POST">
+        <form id="contactForm" action="https://formsubmit.co/garagedoorsag@gmail.com" method="POST" enctype="multipart/form-data">
           <!-- FormSubmit configuration -->
           <input type="hidden" name="_subject" value="New Enquiry — AG Doors Website">
           <input type="hidden" name="_template" value="table">
@@ -102,6 +102,11 @@
           <div class="form-field">
             <label for="message">What's going on with your door?</label>
             <textarea id="message" name="message" required placeholder="e.g. Door won't open, motor is dead, spring snapped..."></textarea>
+          </div>
+          <div class="form-field">
+            <label for="attachment">Attach a photo or quote (optional)</label>
+            <input type="file" id="attachment" name="attachment" accept="image/png, image/jpeg, image/jpg, application/pdf">
+            <p class="form-note" style="margin-top:8px;">Images or PDF, up to 10MB.</p>
           </div>
           <button type="submit" class="call-btn" style="width:100%; justify-content:center; padding:15px;">Send Enquiry</button>
           <p class="form-note">Submitting sends this straight to our inbox — no email app required on your end. For anything urgent, please call or text 0411 419 533 directly instead.</p>
@@ -170,78 +175,7 @@
 <script src="assets/mobile-menu.js"></script>
 <script src="assets/animations.js"></script>
 <script src="assets/suburbs.js"></script>
-<script>
-(function(){
-  var suburbs = window.AG_SUBURBS;
-
-  var input = document.getElementById('suburb');
-  var list = document.getElementById('suburbList');
-  var activeIndex = -1;
-
-  function closeList(){
-    list.innerHTML = '';
-    list.style.display = 'none';
-    activeIndex = -1;
-  }
-
-  function renderList(matches){
-    list.innerHTML = '';
-    if (!matches.length){ closeList(); return; }
-    matches.slice(0, 8).forEach(function(name, i){
-      var item = document.createElement('div');
-      item.textContent = name;
-      item.className = 'autocomplete-item';
-      item.addEventListener('mousedown', function(e){
-        e.preventDefault();
-        input.value = name;
-        closeList();
-      });
-      list.appendChild(item);
-    });
-    list.style.display = 'block';
-  }
-
-  input.addEventListener('input', function(){
-    var q = input.value.trim().toLowerCase();
-    if (!q){ closeList(); return; }
-    var matches = suburbs.filter(function(s){
-      return s.toLowerCase().indexOf(q) !== -1;
-    });
-    renderList(matches);
-  });
-
-  input.addEventListener('keydown', function(e){
-    var items = list.querySelectorAll('.autocomplete-item');
-    if (!items.length) return;
-    if (e.key === 'ArrowDown'){
-      e.preventDefault();
-      activeIndex = (activeIndex + 1) % items.length;
-    } else if (e.key === 'ArrowUp'){
-      e.preventDefault();
-      activeIndex = (activeIndex - 1 + items.length) % items.length;
-    } else if (e.key === 'Enter'){
-      if (activeIndex > -1){
-        e.preventDefault();
-        input.value = items[activeIndex].textContent;
-        closeList();
-        return;
-      }
-    } else if (e.key === 'Escape'){
-      closeList();
-      return;
-    } else {
-      return;
-    }
-    items.forEach(function(el, i){
-      el.classList.toggle('active', i === activeIndex);
-    });
-  });
-
-  document.addEventListener('click', function(e){
-    if (e.target !== input) closeList();
-  });
-})();
-</script>
+<script src="assets/suburb-autocomplete.js"></script>
 
 </body>
 </html>
