@@ -991,7 +991,7 @@ footer .wrap{
   gap:16px;
 }
 footer .foot-brand{ display:flex; align-items:center; gap:12px; }
-footer .foot-brand img{ height:34px; }
+footer .foot-brand img{ height:34px; width:auto; }
 footer .foot-brand span{
   font-family:'Oswald'; letter-spacing:0.1em; font-size:0.9rem; color: var(--grey);
 }
