@@ -315,7 +315,7 @@ nav.links a:hover, nav.links a.active{ color: var(--gold-light); }
   position:absolute;
   right:-140px; top:-100px;
   width:640px; height:640px;
-  background: url('logo-mark-transparent.png') center/contain no-repeat;
+  background: url('logo-mark-transparent.webp') center/contain no-repeat;
   opacity:0.06;
   pointer-events:none;
 }

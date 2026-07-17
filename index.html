@@ -12,17 +12,40 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Same-day garage door repairs across the Gold Coast & Surroundings. Expert technicians, competitive pricing, and every job backed by our workmanship warranty. Call 0411 419 533.">
 <title>AG Doors — Garage Door Repairs, Gold Coast &amp; Surroundings</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "name": "AG Doors",
+  "image": "https://aggaragedoors.com.au/assets/logo-mark-transparent.webp",
+  "url": "https://aggaragedoors.com.au/",
+  "telephone": "+61411419533",
+  "priceRange": "$$",
+  "description": "Local garage door repair, installation, and servicing team covering the Gold Coast & Surroundings, from Beenleigh to Tweed Heads South. Same-day repairs, competitive pricing, and a workmanship warranty on every job.",
+  "areaServed": {
+    "@type": "GeoCircle",
+    "geoMidpoint": {
+      "@type": "GeoCoordinates",
+      "latitude": -28.0167,
+      "longitude": 153.4000
+    },
+    "geoRadius": "50000"
+  }
+}
+</script>
 </head>
 <body>
 
 <header>
   <div class="wrap nav">
     <a href="index.html" class="brand">
-      <img src="assets/logo-mark-transparent.png" alt="AG Doors logo">
+      <img src="assets/logo-mark-transparent.webp" alt="AG Doors logo" width="900" height="727">
       <div class="brand-text">
         <div class="ag">AG DOORS</div>
         <div class="sub">Garage Door Services</div>
@@ -365,7 +388,7 @@
 <footer>
   <div class="wrap">
     <div class="foot-brand">
-      <img src="assets/logo-mark-transparent.png" alt="AG Doors">
+      <img src="assets/logo-mark-transparent.webp" alt="AG Doors" width="900" height="727">
       <span>AG DOORS · GARAGE DOOR SERVICES</span>
     </div>
     <div class="foot-links">
@@ -395,6 +418,17 @@
     var cleanUrl = window.location.pathname;
     window.history.replaceState({}, document.title, cleanUrl);
     setTimeout(function(){ banner.classList.remove('visible'); }, 8000);
+
+    // GOOGLE ADS CONVERSION TRACKING — form submission
+    // This fires every time someone successfully submits the enquiry form
+    // (from either this page or the Contact page, since both redirect here).
+    // Conversion action: "Submit lead form"
+    // Label: AW-18317538295/RW-mCIOL-NEcEPfnvZ5E
+    if (typeof gtag === 'function'){
+      gtag('event', 'conversion', {
+        'send_to': 'AW-18317538295/RW-mCIOL-NEcEPfnvZ5E'
+      });
+    }
   }
   document.getElementById('closeBanner').addEventListener('click', function(){
     document.getElementById('confirmBanner').classList.remove('visible');
@@ -402,6 +436,7 @@
 })();
 </script>
 
+<script src="assets/conversion-tracking.js"></script>
 <script src="assets/mobile-menu.js"></script>
 <script src="assets/animations.js"></script>
 <script src="assets/suburbs.js"></script>
