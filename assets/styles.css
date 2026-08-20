@@ -1255,3 +1255,68 @@ a:focus-visible, button:focus-visible{
 @media (prefers-reduced-motion: reduce){
   .float-btn.call::before{ animation:none; }
 }
+
+/* ============================================================
+   REAL WORK PHOTOS — contained, framed treatment used for
+   genuine job-site photos across the site (homepage, services
+   detail, about gallery). Deliberately restrained — a bordered
+   frame consistent with the site's card language, not full-bleed
+   hero imagery, so photos support the page rather than dominate it.
+   ============================================================ */
+.work-photo-frame{
+  border:1px solid var(--line);
+  border-radius:8px;
+  overflow:hidden;
+  box-shadow: 0 14px 32px rgba(0,0,0,0.35);
+  background: var(--charcoal-2);
+}
+.work-photo-frame img{
+  width:100%;
+  height:auto;
+  display:block;
+}
+.work-photo-caption{
+  padding:12px 16px;
+  font-size:0.78rem;
+  color: var(--grey-dim);
+  border-top:1px solid var(--line);
+  background: var(--charcoal-2);
+}
+
+/* Homepage feature photo — text + contained portrait photo */
+.work-feature{
+  display:grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap:56px;
+  align-items:center;
+}
+.work-feature .work-photo-frame{
+  max-width:320px;
+  margin:0 auto;
+}
+
+/* About page gallery grid */
+.photo-grid{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:14px;
+}
+.photo-grid .work-photo-frame img{
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+@media (min-width: 720px){
+  .photo-grid{ grid-template-columns: repeat(4, 1fr); }
+}
+
+/* Services detail-media inline photo */
+.detail-media .work-photo-frame{
+  max-width:260px;
+  margin-top:6px;
+}
+
+@media (max-width: 880px){
+  .work-feature{ grid-template-columns:1fr; }
+  .work-feature .work-photo-frame{ max-width:280px; }
+}

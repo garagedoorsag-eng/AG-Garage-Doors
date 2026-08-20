@@ -22,6 +22,7 @@
     '.info-card',
     '.hero-card',
     '.warranty-inner',
+    '.work-photo-frame',
     '.area-left',
     '.faq-item'
   ];
