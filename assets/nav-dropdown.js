@@ -1,8 +1,13 @@
 /* ============================================================
    AG DOORS — SERVICES NAV DROPDOWN
    Shared across all pages.
-   - Desktop: click "Services" to open a dropdown listing each
-     service section; click outside, Escape, or a link to close.
+   - Desktop, mouse users: the dropdown opens on hover (handled
+     purely by CSS — see :hover / :focus-within in the stylesheet).
+     This script only updates aria-expanded for accessibility and
+     handles same-page link clicks; it does not control visibility.
+   - Desktop, touch-capable devices (e.g. iPad at desktop width):
+     hover isn't reliable, so this script falls back to a
+     click-to-toggle interaction instead.
    - Mobile: "Services" expands inline within the slide-in drawer
      as an accordion, without closing the drawer itself.
    - If already on services.html, clicking a service link smooth-
@@ -13,6 +18,7 @@
 (function(){
 
   var onServicesPage = /services\.html$/.test(window.location.pathname);
+  var supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   function closeMobileMenuIfOpen(){
     var overlay = document.getElementById('mobileMenuOverlay');
@@ -49,34 +55,59 @@
     var desktopTrigger = desktopWrap.querySelector('.nav-dropdown-trigger');
     var desktopLinks = desktopWrap.querySelectorAll('.nav-dropdown-menu a');
 
-    function closeDesktop(){
-      desktopWrap.classList.remove('open');
-      desktopTrigger.setAttribute('aria-expanded', 'false');
-    }
-    function toggleDesktop(e){
-      e.stopPropagation();
-      var isOpen = desktopWrap.classList.contains('open');
-      if (isOpen){
-        closeDesktop();
-      } else {
-        desktopWrap.classList.add('open');
+    if (supportsHover){
+      // CSS handles opening/closing via :hover and :focus-within.
+      // Just keep aria-expanded accurate for screen readers.
+      desktopWrap.addEventListener('mouseenter', function(){
         desktopTrigger.setAttribute('aria-expanded', 'true');
+      });
+      desktopWrap.addEventListener('mouseleave', function(){
+        desktopTrigger.setAttribute('aria-expanded', 'false');
+      });
+      desktopWrap.addEventListener('focusin', function(){
+        desktopTrigger.setAttribute('aria-expanded', 'true');
+      });
+      desktopWrap.addEventListener('focusout', function(e){
+        if (!desktopWrap.contains(e.relatedTarget)){
+          desktopTrigger.setAttribute('aria-expanded', 'false');
+        }
+      });
+      // Escape moves focus away, which closes the menu via :focus-within.
+      desktopWrap.addEventListener('keydown', function(e){
+        if (e.key === 'Escape' && document.activeElement){
+          document.activeElement.blur();
+        }
+      });
+    } else {
+      // Touch-capable "desktop" width — click to toggle instead.
+      function closeDesktop(){
+        desktopWrap.classList.remove('open');
+        desktopTrigger.setAttribute('aria-expanded', 'false');
       }
+      desktopTrigger.addEventListener('click', function(e){
+        e.stopPropagation();
+        var isOpen = desktopWrap.classList.contains('open');
+        if (isOpen){
+          closeDesktop();
+        } else {
+          desktopWrap.classList.add('open');
+          desktopTrigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+      document.addEventListener('click', function(e){
+        if (!desktopWrap.contains(e.target)) closeDesktop();
+      });
+      document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape') closeDesktop();
+      });
     }
-
-    desktopTrigger.addEventListener('click', toggleDesktop);
-    document.addEventListener('click', function(e){
-      if (!desktopWrap.contains(e.target)) closeDesktop();
-    });
-    document.addEventListener('keydown', function(e){
-      if (e.key === 'Escape') closeDesktop();
-    });
 
     if (onServicesPage){
       desktopLinks.forEach(function(link){
         link.addEventListener('click', function(e){
           handleSamePageClick.call(link, e);
-          closeDesktop();
+          desktopWrap.classList.remove('open');
+          desktopTrigger.setAttribute('aria-expanded', 'false');
         });
       });
     }

@@ -1360,7 +1360,7 @@ a:focus-visible, button:focus-visible{
 .nav-dropdown-menu{
   display:none;
   position:absolute;
-  top: calc(100% + 18px);
+  top: calc(100% + 10px);
   left:0;
   min-width:250px;
   background: var(--charcoal-2);
@@ -1371,6 +1371,16 @@ a:focus-visible, button:focus-visible{
   z-index:120;
 }
 .nav-dropdown.open .nav-dropdown-menu{ display:block; }
+
+/* Hover-to-open on real pointer devices (mouse). Touch-capable
+   "desktop" widths (e.g. iPads) don't match this and fall back
+   to the click-to-toggle behaviour handled in JS instead. */
+@media (hover: hover) and (pointer: fine){
+  .nav-dropdown:hover .nav-dropdown-menu,
+  .nav-dropdown:focus-within .nav-dropdown-menu{
+    display:block;
+  }
+}
 .nav-dropdown-menu a{
   display:block;
   padding:10px 14px;
@@ -1440,10 +1450,15 @@ a:focus-visible, button:focus-visible{
 }
 .mobile-nav-dropdown.open .mobile-nav-dropdown-menu{ display:flex; }
 .mobile-nav-dropdown-menu a{
+  display:block;
   padding:9px 6px;
   font-family:'Inter', sans-serif;
   font-size:0.85rem;
+  font-weight:400;
+  text-transform:none;
+  letter-spacing:0;
   color: var(--grey);
+  border-bottom:none;
 }
 .mobile-nav-dropdown-menu a:hover{ color: var(--gold-light); }
 .mobile-nav-dropdown-menu a.view-all{ color: var(--gold-light); font-weight:600; }
