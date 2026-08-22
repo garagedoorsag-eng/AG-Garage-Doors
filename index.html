@@ -364,7 +364,14 @@
             </div>
             <div class="form-field">
               <label for="attachment">Attach a photo or quote (optional)</label>
-              <input type="file" id="attachment" name="attachment" accept="image/png, image/jpeg, image/jpg, application/pdf">
+              <div class="file-upload">
+                <input type="file" id="attachment" name="attachment" accept="image/png, image/jpeg, image/jpg, application/pdf" class="file-upload-input">
+                <label for="attachment" class="file-upload-button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                  Choose File
+                </label>
+                <span class="file-upload-name">No file chosen</span>
+              </div>
               <p class="form-note" style="margin-top:8px;">Images or PDF, up to 10MB.</p>
             </div>
             <button type="submit" class="call-btn" style="width:100%; justify-content:center; padding:15px;">Send Enquiry</button>
@@ -479,6 +486,7 @@
 </script>
 
 <script src="assets/conversion-tracking.js"></script>
+<script src="assets/file-upload.js"></script>
 <script src="assets/mobile-menu.js"></script>
 <script src="assets/nav-dropdown.js"></script>
 <script src="assets/animations.js"></script>
