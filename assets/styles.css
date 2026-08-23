@@ -7,7 +7,8 @@
 
 /* ---------- Smooth cross-page transitions ----------
    Native browser feature (Chrome/Edge/Safari 18.2+) — gives a
-   soft cross-fade when navigating between pages on this site.
+   custom reveal when navigating between pages on this site: the
+   new page fades in as it's wiped into view from top to bottom.
    Firefox and older browsers simply ignore this and navigate
    normally, so nothing ever breaks. No JavaScript required. */
 @view-transition{
@@ -18,6 +19,24 @@
    it's identical on every page, so let it stay put and morph
    smoothly instead of flashing out and back in. */
 header{ view-transition-name: site-header; }
+
+::view-transition-old(root){
+  animation: none;
+  opacity:1;
+}
+::view-transition-new(root){
+  animation: page-reveal-top-down 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes page-reveal-top-down{
+  from{
+    clip-path: inset(0 0 100% 0);
+    opacity:0;
+  }
+  to{
+    clip-path: inset(0 0 0% 0);
+    opacity:1;
+  }
+}
 
 @media (prefers-reduced-motion: reduce){
   ::view-transition-group(*),
@@ -577,17 +596,22 @@ section{ padding: 92px 0; scroll-margin-top: 100px; }
 .detail-block{
   display:grid;
   grid-template-columns: 1fr 340px;
-  gap:56px;
+  grid-template-areas:
+    "heading media"
+    "body    media";
+  column-gap:56px;
+  row-gap:6px;
   align-items:start;
   padding: 64px 0;
   border-bottom: 1px solid var(--line);
 }
 .detail-block:last-child{ border-bottom:none; }
 .detail-heading{
+  grid-area: heading;
   display:flex;
   align-items:center;
   gap:20px;
-  margin-bottom:22px;
+  margin-bottom:16px;
 }
 .detail-heading .hex{ --s:64px; flex-shrink:0; }
 .detail-heading h3{
@@ -596,9 +620,11 @@ section{ padding: 92px 0; scroll-margin-top: 100px; }
   font-weight:600;
 }
 .detail-media{
+  grid-area: media;
   display:flex;
   flex-direction:column;
 }
+.detail-body{ grid-area: body; }
 .detail-body p{ color: var(--grey); margin-bottom:18px; }
 .detail-body p:last-child{ margin-bottom:0; }
 .check-list{ display:flex; flex-direction:column; gap:12px; margin-top:20px; }
@@ -615,9 +641,15 @@ section{ padding: 92px 0; scroll-margin-top: 100px; }
 }
 
 @media (max-width: 880px){
-  .detail-block{ grid-template-columns: 1fr; gap:24px; }
-  .detail-block{ display:flex; flex-direction:column; }
-  .detail-media{ order:-1; margin-bottom:8px; }
+  .detail-block{
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "heading"
+      "media"
+      "body";
+    row-gap:20px;
+  }
+  .detail-heading{ margin-bottom:0; }
 }
 
 /* ---------- Warranty ---------- */
@@ -1425,16 +1457,13 @@ a:focus-visible, button:focus-visible{
   padding:8px;
   z-index:120;
   opacity:0;
-  visibility:hidden;
-  transform: translateY(-6px) scale(0.98);
-  transform-origin: top left;
+  clip-path: inset(0 0 100% 0 round 6px);
   pointer-events:none;
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  transition: opacity 0.3s ease, clip-path 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .nav-dropdown.open .nav-dropdown-menu{
   opacity:1;
-  visibility:visible;
-  transform: translateY(0) scale(1);
+  clip-path: inset(0 0 0% 0 round 6px);
   pointer-events:auto;
 }
 
@@ -1445,8 +1474,7 @@ a:focus-visible, button:focus-visible{
   .nav-dropdown:hover .nav-dropdown-menu,
   .nav-dropdown:focus-within .nav-dropdown-menu{
     opacity:1;
-    visibility:visible;
-    transform: translateY(0) scale(1);
+    clip-path: inset(0 0 0% 0 round 6px);
     pointer-events:auto;
   }
 }
