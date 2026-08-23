@@ -24,11 +24,12 @@
     '.warranty-inner',
     '.work-photo-frame',
     '.area-left',
-    '.faq-item'
+    '.faq-item',
+    '.brand-logo-tile'
   ];
 
   // Grid containers whose direct children should cascade with a stagger.
-  var staggerGroups = ['.service-grid', '.coverage-grid'];
+  var staggerGroups = ['.service-grid', '.coverage-grid', '.brand-logos-grid', '.brand-strip-logos'];
 
   var liftTargets = document.querySelectorAll(liftSelectors.join(', '));
   var sectionHeads = document.querySelectorAll('.section-head');

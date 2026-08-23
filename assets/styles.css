@@ -566,14 +566,15 @@ section{ padding: 92px 0; scroll-margin-top: 100px; }
 /* ---------- Detail blocks (services.html) ---------- */
 .detail-block{
   display:grid;
-  grid-template-columns: 340px 1fr;
+  grid-template-columns: 1fr 340px;
   gap:56px;
   align-items:start;
   padding: 64px 0;
   border-bottom: 1px solid var(--line);
 }
 .detail-block:last-child{ border-bottom:none; }
-.detail-block:nth-child(even) .detail-media{ order:2; }
+.detail-media{ order:2; }
+.detail-body{ order:1; }
 .detail-media{
   display:flex;
   flex-direction:column;
@@ -602,7 +603,8 @@ section{ padding: 92px 0; scroll-margin-top: 100px; }
 
 @media (max-width: 880px){
   .detail-block{ grid-template-columns: 1fr; gap:24px; }
-  .detail-block:nth-child(even) .detail-media{ order:0; }
+  .detail-media{ order:0; }
+  .detail-body{ order:0; }
 }
 
 /* ---------- Warranty ---------- */
@@ -1340,8 +1342,22 @@ a:focus-visible, button:focus-visible{
 
 /* Services detail-media inline photo */
 .detail-media .work-photo-frame{
-  max-width:260px;
+  max-width:300px;
   margin-top:6px;
+}
+.detail-media-photos{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+  margin-top:6px;
+}
+.detail-media-photos .work-photo-frame{
+  max-width:none;
+  margin-top:0;
+}
+.detail-media-photos .work-photo-frame img{
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
 }
 
 @media (max-width: 880px){
@@ -1388,7 +1404,6 @@ a:focus-visible, button:focus-visible{
 .nav-dropdown-trigger[aria-expanded="true"] .dropdown-chevron{ transform: rotate(180deg); }
 
 .nav-dropdown-menu{
-  display:none;
   position:absolute;
   top: calc(100% - 18px);
   left:0;
@@ -1399,8 +1414,19 @@ a:focus-visible, button:focus-visible{
   box-shadow: 0 18px 36px rgba(0,0,0,0.45);
   padding:8px;
   z-index:120;
+  opacity:0;
+  visibility:hidden;
+  transform: translateY(-6px) scale(0.98);
+  transform-origin: top left;
+  pointer-events:none;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
 }
-.nav-dropdown.open .nav-dropdown-menu{ display:block; }
+.nav-dropdown.open .nav-dropdown-menu{
+  opacity:1;
+  visibility:visible;
+  transform: translateY(0) scale(1);
+  pointer-events:auto;
+}
 
 /* Hover-to-open on real pointer devices (mouse). Touch-capable
    "desktop" widths (e.g. iPads) don't match this and fall back
@@ -1408,7 +1434,10 @@ a:focus-visible, button:focus-visible{
 @media (hover: hover) and (pointer: fine){
   .nav-dropdown:hover .nav-dropdown-menu,
   .nav-dropdown:focus-within .nav-dropdown-menu{
-    display:block;
+    opacity:1;
+    visibility:visible;
+    transform: translateY(0) scale(1);
+    pointer-events:auto;
   }
 }
 .nav-dropdown-menu a{
@@ -1432,6 +1461,10 @@ a:focus-visible, button:focus-visible{
   padding-bottom:12px;
 }
 
+@media (prefers-reduced-motion: reduce){
+  .nav-dropdown-menu{ transition:none; }
+}
+
 @media (max-width: 880px){
   .nav-dropdown{ display:none; }
 }
@@ -1439,6 +1472,9 @@ a:focus-visible, button:focus-visible{
 /* ============================================================
    SERVICES NAV DROPDOWN — mobile (inline accordion in drawer)
    ============================================================ */
+.mobile-nav-dropdown{
+  border-bottom:1px solid var(--line);
+}
 .mobile-nav-dropdown-trigger{
   width:100%;
   display:flex;
@@ -1448,7 +1484,6 @@ a:focus-visible, button:focus-visible{
   border:none;
   margin:0;
   padding:16px 6px;
-  border-bottom:1px solid var(--line);
   font-family:'Oswald', sans-serif;
   font-size:1.05rem;
   line-height:normal;
@@ -1460,25 +1495,34 @@ a:focus-visible, button:focus-visible{
 }
 .mobile-nav-dropdown-trigger:hover,
 .mobile-nav-dropdown-trigger.active{ color: var(--gold-light); }
-.mobile-nav-dropdown.open .mobile-nav-dropdown-trigger{
-  color: var(--gold-light);
-  border-bottom-color: transparent;
-}
+.mobile-nav-dropdown.open .mobile-nav-dropdown-trigger{ color: var(--gold-light); }
 .mobile-nav-dropdown-trigger .dropdown-chevron{
   width:16px;
   height:16px;
   flex-shrink:0;
-  transition: transform 0.2s ease;
+  transition: transform 0.25s ease;
 }
 .mobile-nav-dropdown.open .mobile-nav-dropdown-trigger .dropdown-chevron{ transform: rotate(180deg); }
 
 .mobile-nav-dropdown-menu{
-  display:none;
+  display:flex;
   flex-direction:column;
-  padding:2px 0 10px 16px;
-  border-bottom:1px solid var(--line);
+  max-height:0;
+  opacity:0;
+  overflow:hidden;
+  padding:0 0 0 16px;
+  transition: max-height 0.3s ease, opacity 0.25s ease, padding 0.3s ease;
 }
-.mobile-nav-dropdown.open .mobile-nav-dropdown-menu{ display:flex; }
+.mobile-nav-dropdown.open .mobile-nav-dropdown-menu{
+  max-height:400px;
+  opacity:1;
+  padding:2px 0 10px 16px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .mobile-nav-dropdown-trigger .dropdown-chevron,
+  .mobile-nav-dropdown-menu{ transition:none; }
+}
 .mobile-nav-dropdown-menu a{
   display:block;
   padding:9px 6px;
@@ -1492,3 +1536,63 @@ a:focus-visible, button:focus-visible{
 }
 .mobile-nav-dropdown-menu a:hover{ color: var(--gold-light); }
 .mobile-nav-dropdown-menu a.view-all{ color: var(--gold-light); font-weight:600; }
+
+/* ============================================================
+   BRAND LOGO TILES
+   Shared component: each logo sits on a clean white tile so it
+   reads clearly regardless of its own original background —
+   used both in the Services page "All Door Types" strip and the
+   homepage's dedicated brands section.
+   ============================================================ */
+.brand-logo-tile{
+  background:#fff;
+  border-radius:8px;
+  padding:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:76px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.brand-logo-tile:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+}
+.brand-logo-tile img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+}
+
+/* Services page — brand strip within the "All Door Types" section */
+.brand-strip{ margin-top:28px; }
+.brand-strip-label{
+  display:block;
+  font-size:0.75rem;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color: var(--gold-light);
+  margin-bottom:14px;
+}
+.brand-strip-logos{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:12px;
+}
+
+/* Homepage — standalone brands section */
+.brand-logos-grid{
+  display:grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap:18px;
+}
+.brand-logos-grid .brand-logo-tile{ height:90px; padding:20px; }
+
+@media (max-width: 880px){
+  .brand-strip-logos{ grid-template-columns: repeat(2, 1fr); }
+  .brand-logos-grid{ grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 480px){
+  .brand-logos-grid{ grid-template-columns: repeat(2, 1fr); }
+}
