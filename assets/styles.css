@@ -1382,7 +1382,7 @@ a:focus-visible, button:focus-visible{
 }
 
 @media (min-width: 720px){
-  .photo-grid{ grid-template-columns: repeat(4, 1fr); }
+  .photo-grid{ grid-template-columns: repeat(3, 1fr); }
 }
 
 /* Services detail-media inline photo */
