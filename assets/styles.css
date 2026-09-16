@@ -173,6 +173,46 @@ header{
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
+
+/* ---------- Urgent call bar (sits above the header) ---------- */
+.urgent-bar{
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+  color: #141414;
+}
+.urgent-bar .wrap{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  padding:9px 24px;
+  flex-wrap:wrap;
+  text-align:center;
+}
+.urgent-bar span{
+  font-size:0.82rem;
+  font-weight:600;
+  letter-spacing:0.01em;
+}
+.urgent-bar a{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:#141414;
+  color: var(--gold-light);
+  font-size:0.78rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.03em;
+  padding:5px 14px;
+  border-radius:20px;
+  transition: transform 0.15s ease;
+}
+.urgent-bar a:hover{ transform: translateY(-1px); }
+@media (max-width: 560px){
+  .urgent-bar span{ font-size:0.76rem; }
+  .urgent-bar .wrap{ padding:8px 16px; gap:10px; }
+}
+
 .nav{
   display:flex;
   align-items:center;
@@ -379,9 +419,12 @@ nav.links a:hover, nav.links a.active{ color: var(--gold-light); }
   box-shadow: 0 0 8px var(--gold-light);
 }
 .hero h1{
-  font-size: clamp(2.6rem, 5.2vw, 4.1rem);
-  line-height:1.03;
-  font-weight:600;
+  font-family:'Inter', sans-serif;
+  text-transform:none;
+  letter-spacing:normal;
+  font-size: clamp(2.1rem, 4.2vw, 3.3rem);
+  line-height:1.18;
+  font-weight:700;
 }
 .hero h1 .accent{
   background: linear-gradient(180deg, var(--gold-light), var(--gold) 60%, var(--gold-dim));
@@ -491,10 +534,47 @@ nav.links a:hover, nav.links a.active{ color: var(--gold-light); }
   color: var(--gold-light);
   margin: 6px 0 4px;
 }
-.hero-card .phone-note{
+.hero-card .urgent-btn{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  background: linear-gradient(155deg, #e6453f, #c62828);
+  color:#fff;
+  font-family:'Oswald', sans-serif;
+  font-size:0.92rem;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  padding:13px 20px;
+  border-radius:4px;
+  margin:18px 0 8px;
+  box-shadow: 0 6px 18px rgba(198,40,40,0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.hero-card .urgent-btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(198,40,40,0.45);
+}
+.hero-card .urgent-btn svg{ width:16px; height:16px; flex-shrink:0; }
+.hero-card .urgent-btn::before{
+  content:"";
+  position:absolute; inset:-4px;
+  border-radius:8px;
+  border:1.5px solid #e6453f;
+  opacity:0.6;
+  animation: floatPulse 2.6s ease-out infinite;
+  pointer-events:none;
+}
+.hero-card .urgent-note{
+  text-align:center;
   color: var(--grey);
-  font-size:0.85rem;
+  font-size:0.8rem;
   margin-bottom:22px;
+}
+@media (prefers-reduced-motion: reduce){
+  .hero-card .urgent-btn::before{ animation:none; }
 }
 .hero-card .area{
   display:flex;
@@ -1106,7 +1186,6 @@ a:focus-visible, button:focus-visible{
 @media (max-width: 480px){
   .nav > .call-btn .call-btn-label{ display:none; }
   .nav > .call-btn{ padding:10px; }
-  .hero h1{ font-size: 2.1rem; }
   .wrap{ padding: 0 18px; }
 }
 
