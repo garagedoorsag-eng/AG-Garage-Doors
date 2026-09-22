@@ -71,8 +71,14 @@ header{ view-transition-name: site-header; }
    box can still register as scrollable width on iOS Safari, which
    is what let visitors drag the page horizontally. clip (rather
    than hidden) is the more robust property for this specific
-   fixed-element case. */
-html{ scroll-behavior:smooth; overflow-x:clip; max-width:100%; }
+   fixed-element case.
+
+   Deliberately NOT paired with max-width:100% here — that combination
+   is a well-documented cause of the page rendering narrower than the
+   true viewport (a visible gap on the right) on some mobile browsers.
+   overflow-x:clip alone is sufficient to stop the drag/scroll; it
+   doesn't change how width is calculated at all. */
+html{ scroll-behavior:smooth; overflow-x:clip; }
 
 body{
   background: var(--black);
@@ -80,7 +86,6 @@ body{
   font-family: 'Inter', sans-serif;
   line-height:1.6;
   overflow-x:clip;
-  max-width:100%;
 }
 
 h1,h2,h3,h4{
