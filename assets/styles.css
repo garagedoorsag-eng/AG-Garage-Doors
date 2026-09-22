@@ -1001,7 +1001,7 @@ section{ padding: 92px 0; scroll-margin-top: 100px; }
   gap:12px;
   flex-wrap:wrap;
 }
-.file-upload-input{
+.file-upload .file-upload-input{
   position:absolute;
   width:1px;
   height:1px;
@@ -1188,9 +1188,9 @@ footer .foot-brand img{ height:34px; width:auto; }
 footer .foot-brand span{
   font-family:'Oswald'; letter-spacing:0.1em; font-size:0.9rem; color: var(--grey);
 }
-footer .foot-links{ display:flex; gap:22px; font-size:0.78rem; color:var(--grey); text-transform:uppercase; letter-spacing:0.04em; font-weight:600; }
+footer .foot-links{ display:flex; flex-wrap:wrap; gap:22px; font-size:0.78rem; color:var(--grey); text-transform:uppercase; letter-spacing:0.04em; font-weight:600; }
 footer .foot-links a:hover{ color: var(--gold-light); }
-footer .foot-meta{ display:flex; gap:26px; font-size:0.78rem; color: var(--grey-dim); }
+footer .foot-meta{ display:flex; flex-wrap:wrap; gap:26px; font-size:0.78rem; color: var(--grey-dim); }
 footer .foot-meta a:hover{ color: var(--gold-light); }
 
 /* focus states */
