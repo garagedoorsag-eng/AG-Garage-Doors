@@ -63,14 +63,24 @@ header{ view-transition-name: site-header; }
 
 *{ margin:0; padding:0; box-sizing:border-box; }
 
-html{ scroll-behavior:smooth; }
+/* overflow-x:clip on <html> (not just <body>) matters specifically
+   because position:fixed elements — like the mobile menu drawer,
+   which sits translated off-screen to the right when closed —
+   are positioned relative to the viewport/initial containing
+   block, not <body>. Without containment here, that off-screen
+   box can still register as scrollable width on iOS Safari, which
+   is what let visitors drag the page horizontally. clip (rather
+   than hidden) is the more robust property for this specific
+   fixed-element case. */
+html{ scroll-behavior:smooth; overflow-x:clip; max-width:100%; }
 
 body{
   background: var(--black);
   color: var(--white);
   font-family: 'Inter', sans-serif;
   line-height:1.6;
-  overflow-x:hidden;
+  overflow-x:clip;
+  max-width:100%;
 }
 
 h1,h2,h3,h4{
