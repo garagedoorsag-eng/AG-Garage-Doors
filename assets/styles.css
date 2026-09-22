@@ -191,8 +191,8 @@ header{
 
 /* ---------- Urgent call bar (sits above the header) ---------- */
 .urgent-bar{
-  background: linear-gradient(90deg, var(--gold-dim), var(--gold));
-  color: #141414;
+  background: linear-gradient(90deg, #c62828, #e6453f);
+  color: #fff;
 }
 .urgent-bar .wrap{
   display:flex;
