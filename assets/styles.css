@@ -519,6 +519,13 @@ nav.links a:hover, nav.links a.active{ color: var(--gold-light); }
   background: var(--gold-light);
   box-shadow: 0 0 6px var(--gold-light);
 }
+.hero-highlights-card{
+  margin:0 0 24px;
+  gap:8px;
+}
+.hero-highlights-card li{
+  font-size:0.85rem;
+}
 
 /* ---------- Scroll-down hint (bottom-right of hero) ---------- */
 .scroll-hint{
