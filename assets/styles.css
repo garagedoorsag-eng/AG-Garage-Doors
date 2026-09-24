@@ -399,10 +399,11 @@ nav.links a:hover, nav.links a.active{ color: var(--gold-light); }
 .hero::after{
   content:"";
   position:absolute;
-  right:-140px; top:-100px;
-  width:640px; height:640px;
-  background: url('logo-mark-transparent.webp') center/contain no-repeat;
-  opacity:0.06;
+  inset:0;
+  background: url('photos/work-motor-install.webp') center 22%/cover no-repeat;
+  filter: blur(5px);
+  transform: scale(1.05);
+  opacity:0.22;
   pointer-events:none;
 }
 
@@ -421,11 +422,11 @@ nav.links a:hover, nav.links a.active{ color: var(--gold-light); }
 .how-it-works-bg::before{
   content:"";
   position:absolute;
-  inset:0;
-  background: url('photos/work-motor-install.webp') center 20%/cover no-repeat;
-  filter: blur(18px);
-  transform: scale(1.1);
-  opacity:0.16;
+  right:-140px; top:-100px;
+  width:640px; height:640px;
+  background: url('logo-mark-transparent.webp') center/contain no-repeat;
+  opacity:0.06;
+  pointer-events:none;
   z-index:0;
 }
 .how-it-works-bg > .wrap{
@@ -1278,7 +1279,6 @@ a:focus-visible, button:focus-visible{
    ============================================================ */
 @media (max-width: 880px){
   .hero{ padding: 36px 0 28px; }
-  .hero::after{ width:340px; height:340px; right:-100px; top:-60px; opacity:0.05; }
   .hero-card{ padding:28px 22px; }
   .hero-ctas{ margin-top:24px; }
   .hero-highlights{ gap:7px; margin-top:16px; }
