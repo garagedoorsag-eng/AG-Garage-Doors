@@ -400,8 +400,8 @@ nav.links a:hover, nav.links a.active{ color: var(--gold-light); }
   content:"";
   position:absolute;
   inset:0;
-  background: url('photos/work-motor-install.webp') center 22%/cover no-repeat;
-  filter: blur(5px);
+  background: url('photos/work-motor-install.webp') center 10%/cover no-repeat;
+  filter: blur(2px);
   transform: scale(1.05);
   opacity:0.22;
   pointer-events:none;
@@ -520,6 +520,15 @@ nav.links a:hover, nav.links a.active{ color: var(--gold-light); }
   transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
 .btn-outline:hover{ border-color: var(--gold-dim); color: var(--gold-light); background: rgba(201,154,61,0.06); transform: translateY(-1px); }
+.btn-quote{
+  border-color:#3b82f6;
+  color:#60a5fa;
+}
+.btn-quote:hover{
+  border-color:#60a5fa;
+  color:#93c5fd;
+  background: rgba(59,130,246,0.08);
+}
 
 /* ---------- Hero highlight list (golden dots) ---------- */
 .hero-highlights{
@@ -1278,9 +1287,12 @@ a:focus-visible, button:focus-visible{
    base desktop rules defined earlier in this file
    ============================================================ */
 @media (max-width: 880px){
-  .hero{ padding: 36px 0 28px; }
+  .hero{ padding: 28px 0 28px; }
+  .eyebrow-badge{ margin-bottom:14px; }
+  .hero h1{ font-size: clamp(1.8rem, 6vw, 2.6rem); line-height:1.14; }
+  .hero p.lede{ margin-top:12px; font-size:0.95rem; }
   .hero-card{ padding:28px 22px; }
-  .hero-ctas{ margin-top:24px; }
+  .hero-ctas{ margin-top:18px; }
   .hero-highlights{ gap:7px; margin-top:16px; }
   .hero-highlights li{ font-size:0.86rem; }
   section{ padding: 56px 0; scroll-margin-top: 84px; }
