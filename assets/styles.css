@@ -331,15 +331,17 @@ nav.links a:hover, nav.links a.active{ color: var(--gold-light); }
   left:18px;
   max-width:230px;
   margin-left:auto;
+  max-height:calc(100vh - 100px);
   background: var(--charcoal-2);
   border:1px solid var(--line);
   border-radius:10px;
   box-shadow: 0 18px 36px rgba(0,0,0,0.45);
   z-index:201;
   opacity:0;
-  max-height:0;
+  transform: scaleY(0.85) translateY(-6px);
+  transform-origin: top right;
+  transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events:none;
-  transition: opacity 0.3s ease, max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   display:flex;
   flex-direction:column;
   padding:10px;
@@ -347,7 +349,7 @@ nav.links a:hover, nav.links a.active{ color: var(--gold-light); }
 }
 .mobile-menu-drawer.open{
   opacity:1;
-  max-height:calc(100vh - 100px);
+  transform: scaleY(1) translateY(0);
   pointer-events:auto;
 }
 
