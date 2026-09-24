@@ -329,7 +329,7 @@ nav.links a:hover, nav.links a.active{ color: var(--gold-light); }
   top:82px;
   right:18px;
   left:18px;
-  max-width:300px;
+  max-width:230px;
   margin-left:auto;
   max-height:calc(100vh - 100px);
   background: var(--charcoal-2);
