@@ -405,6 +405,34 @@ nav.links a:hover, nav.links a.active{ color: var(--gold-light); }
   opacity:0.06;
   pointer-events:none;
 }
+
+/* ---------- How It Works — blurred photo backdrop ----------
+   The photo sits blurred and dimmed behind the section via a
+   pseudo-element (not applied to the section itself), so the
+   heading, paragraph and step cards stay perfectly sharp and
+   readable on top. Slightly oversized (scale) to stop the blur
+   revealing the image's straight edges. */
+.how-it-works-bg{
+  position:relative;
+  overflow:hidden;
+  background: var(--charcoal);
+  border-bottom:1px solid var(--line);
+}
+.how-it-works-bg::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: url('photos/work-motor-install.webp') center 20%/cover no-repeat;
+  filter: blur(18px);
+  transform: scale(1.1);
+  opacity:0.16;
+  z-index:0;
+}
+.how-it-works-bg > .wrap{
+  position:relative;
+  z-index:1;
+}
+
 .hero-grid{
   position:relative;
   z-index:2;
