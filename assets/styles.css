@@ -200,13 +200,13 @@ header{
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:16px;
-  padding:9px 24px;
+  gap:14px;
+  padding:6px 24px;
   flex-wrap:wrap;
   text-align:center;
 }
 .urgent-bar span{
-  font-size:0.82rem;
+  font-size:0.76rem;
   font-weight:600;
   letter-spacing:0.01em;
 }
@@ -216,11 +216,11 @@ header{
   gap:6px;
   background:#141414;
   color: var(--gold-light);
-  font-size:0.78rem;
+  font-size:0.72rem;
   font-weight:700;
   text-transform:uppercase;
   letter-spacing:0.03em;
-  padding:5px 14px;
+  padding:4px 12px;
   border-radius:20px;
   transition: transform 0.15s ease;
 }
@@ -1299,12 +1299,12 @@ a:focus-visible, button:focus-visible{
    base desktop rules defined earlier in this file
    ============================================================ */
 @media (max-width: 880px){
-  .urgent-bar .wrap{ padding:8px 20px; gap:8px; }
-  .urgent-bar span{ font-size:0.78rem; }
+  .urgent-bar .wrap{ padding:6px 20px; gap:7px; }
+  .urgent-bar span{ font-size:0.72rem; }
   .hero{ padding: 24px 0 24px; }
   .hero::after{ background-position: 20% 10%; transform: scale(1); }
   .eyebrow-badge{ margin-bottom:12px; padding:6px 13px; font-size:0.68rem; }
-  .hero h1{ font-size: clamp(1.7rem, 6vw, 2.6rem); line-height:1.12; }
+  .hero h1{ font-size: clamp(2rem, 7.5vw, 2.9rem); line-height:1.14; }
   .hero p.lede{ margin-top:10px; font-size:0.88rem; line-height:1.5; }
   .hero-card{ padding:20px 18px; }
   .hero-card .urgent-btn{ padding:11px 16px; margin:4px 0 8px; }
