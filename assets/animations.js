@@ -20,7 +20,6 @@
     '.detail-block',
     '.suburb-panel',
     '.info-card',
-    '.hero-card',
     '.warranty-inner',
     '.work-photo-frame',
     '.area-left',

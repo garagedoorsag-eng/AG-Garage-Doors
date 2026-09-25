@@ -1,15 +1,25 @@
 /* ============================================================
    AG DOORS — SHARED SUBURB LIST
-   Used by: service-area.html (chip display)
-            contact.html (autocomplete)
-   One single corridor list — Beenleigh (north) to Tweed Heads
-   South (south). Keeping this in one file means both pages
-   always match — update the list here and both pages reflect
-   it automatically.
+   Used by: service-area.html (chip display), index.html
+            (homepage coverage section), contact.html
+            (autocomplete)
+   One single corridor list — Springwood & Browns Plains
+   (northern/western edge, southern Brisbane) down through the
+   Gold Coast to Pottsville, NSW (southern edge). Keeping this
+   in one file means every page always matches — update the
+   list here and it reflects everywhere automatically.
    ============================================================ */
 
 window.AG_SUBURBS = [
-  // Logan City corridor — northern anchor at Beenleigh
+  // Southern Brisbane / northern & western Logan corridor —
+  // northern anchor at Springwood, western anchor at Browns Plains
+  "Springwood","Rochedale South","Underwood","Slacks Creek","Woodridge",
+  "Daisy Hill","Logan Central","Loganlea","Kingston","Marsden",
+  "Meadowbrook","Waterford West","Tanah Merah","Bethania","Crestmead",
+  "Heritage Park","Regents Park","Boronia Heights","Park Ridge","Berrinba",
+  "Hillcrest","Browns Plains",
+
+  // Logan City corridor — down to Beenleigh
   "Beenleigh","Eagleby","Mount Warren Park","Windaroo","Belivah",
   "Stapylton","Holmview","Edens Landing","Loganholme","Yatala",
 
@@ -26,6 +36,11 @@ window.AG_SUBURBS = [
   "Burleigh Heads","Burleigh Waters","Palm Beach","Currumbin","Currumbin Waters",
   "Tugun","Coolangatta","Kirra",
 
-  // Across the NSW border — southern anchor at Tweed Heads South
-  "Tweed Heads","Tweed Heads West","Tweed Heads South","Banora Point"
+  // Across the NSW border — Tweed Heads
+  "Tweed Heads","Tweed Heads West","Tweed Heads South","Banora Point",
+  "Bilambil Heights","Terranora",
+
+  // Tweed Coast — southern anchor at Pottsville
+  "Chinderah","Kingscliff","Casuarina","Cabarita Beach","Hastings Point",
+  "Pottsville"
 ];
