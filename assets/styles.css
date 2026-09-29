@@ -1308,15 +1308,15 @@ a:focus-visible, button:focus-visible{
   /* Photo backdrop only behind the "How It Works" heading + description
      on mobile — the step cards below sit on the plain charcoal background. */
   .how-it-works-bg::before{ display:none; }
-  .how-it-works-intro{ position:relative; padding:24px 0; }
+  .how-it-works-intro{ position:relative; padding:28px 0; }
   .how-it-works-intro::before{
     content:"";
     position:absolute;
     top:0; bottom:0; left:-18px; right:-18px;
-    background: url('photos/garage-door-exterior.webp') center/contain no-repeat;
-    filter: blur(2px);
-    transform: scale(1.05);
-    opacity:0.22;
+    background:
+      linear-gradient(180deg, rgba(10,10,12,0.58) 0%, rgba(10,10,12,0.68) 60%, rgba(10,10,12,0.78) 100%),
+      url('photos/garage-door-exterior.webp') center/cover no-repeat;
+    filter: blur(0.5px);
     pointer-events:none;
     z-index:0;
   }
