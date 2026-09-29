@@ -426,7 +426,7 @@ nav.links a:hover, nav.links a.active{ color: var(--gold-light); }
   content:"";
   position:absolute;
   inset:0;
-  background: url('photos/work-track-inspection.webp') center 35%/cover no-repeat;
+  background: url('photos/garage-door-exterior.webp') center 45%/cover no-repeat;
   filter: blur(2px);
   transform: scale(1.05);
   opacity:0.22;
@@ -1312,6 +1312,7 @@ a:focus-visible, button:focus-visible{
   .urgent-bar span{ font-size:0.72rem; }
   .hero{ padding: 24px 0 24px; }
   .hero::after{ background-position: 20% 10%; transform: scale(1); }
+  .how-it-works-bg::before{ background-size: contain; background-position: center; }
   .eyebrow-badge{ margin-bottom:12px; padding:6px 13px; font-size:0.68rem; }
   .hero h1{ font-size: clamp(2rem, 7.5vw, 2.9rem); line-height:1.14; }
   .hero p.lede{ margin-top:10px; font-size:0.88rem; line-height:1.5; }
