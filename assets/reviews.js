@@ -27,7 +27,7 @@
 
   // Optional: paste the business's Place ID (starts with "ChIJ...") to skip the
   // search step. Leave as '' to find the listing by name + phone number instead.
-  var PLACE_ID = '';
+  var PLACE_ID = 'ChIJz2CaQB-nua0RZalrRV_iHo0';   // AG Doors (verified)
 
   var SEARCH_TEXT = 'AG Doors garage door repairs Gold Coast';
   var PHONE_LAST9 = '411419533';       // 0411 419 533 — used to verify the right listing
@@ -72,6 +72,8 @@
     }, { rootMargin: '500px 0px' });
     io.observe(section);
   } else { start(); }
+  // Fallback: if the observer hasn't fired shortly after the page loads, load anyway
+  window.addEventListener('load', function(){ setTimeout(start, 2500); });
 
   /* ---------- get the place + reviews ---------- */
   var FIELDS = ['displayName', 'rating', 'userRatingCount', 'reviews', 'googleMapsURI', 'nationalPhoneNumber'];
