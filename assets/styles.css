@@ -1983,3 +1983,5 @@ a.review-name:hover{ color: var(--gold-light); }
 }
 .reviews-dot.active{ background: var(--gold-light); transform:scale(1.2); }
 .reviews-cta{ text-align:center; margin-top:28px; }
+.reviews-attribution{ text-align:center; margin-top:16px; font-size:0.78rem; color: var(--grey-dim); }
+.reviews-attribution strong{ color: var(--grey); font-weight:600; }

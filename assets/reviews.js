@@ -1,164 +1,159 @@
 /* ============================================================
    AG DOORS — GOOGLE REVIEWS CAROUSEL
-   Pulls the business's Google reviews (Places API, "New") and
-   shows them as an auto-advancing carousel in #reviews.
+   Uses the Google Maps JavaScript API "places" library
+   (google.maps.places.Place) to show the business's Google
+   reviews in an auto-advancing carousel inside #reviews.
 
-   Safety rules built in:
-   - Reviews are only shown if the Google listing found is
-     verified to be AG Doors (phone number match, or an explicit
-     PLACE_ID below). If nothing verifies, no reviews are shown.
-   - If the API is unreachable/denied, the section falls back to
-     a heading + the "Click to see all reviews" button only.
-   - Review text is inserted with textContent (never as HTML).
-   - Results are cached in the visitor's browser for 12 hours.
+   >>> ENTER YOUR API KEY ON THE LINE MARKED  <<< AIzaSyBSoVjdShnA8coDTJJBHEtYk1xbKltm5C4  <<<
+   The key must be restricted in Google Cloud Console to:
+     - HTTP referrers: https://aggaragedoors.com.au/*
+                       https://www.aggaragedoors.com.au/*
+     - APIs: Maps JavaScript API + Places API (New)
 
-   NOTE: Google returns at most 5 reviews through this API.
-   The API key is visible to anyone who views the page source, so
-   it MUST be restricted in Google Cloud Console to (1) the
-   "Places API (New)" only and (2) HTTP referrers:
-   aggaragedoors.com.au/*  and  www.aggaragedoors.com.au/*
+   Policy notes (Google Maps Platform):
+   - Reviews are fetched live on each page view and are NEVER
+     stored (no localStorage / cookies / files of our own).
+   - Each review shows the reviewer's name (linked to their Google
+     profile), their photo and star rating, as returned by Google.
+   - Google attribution ("Google Maps") is shown with the reviews.
+   - Reviews are only shown if the listing found is verified to be
+     AG Doors (phone-number match, or the explicit PLACE_ID below).
+   - If anything fails, the section falls back to a heading plus
+     the "Read all reviews on Google" button only.
+   Google returns at most 5 reviews through this API.
    ============================================================ */
 (function(){
-  var API_KEY = 'AIzaSyBSoVjdShnA8coDTJJBHEtYk1xbKltm5C4';
-  var PLACE_ID = '';                       // optional: paste the Place ID here to skip the search
-  var QUERY = 'AG Doors garage door repairs Gold Coast';
-  var PHONE_LAST9 = '411419533';           // 0411 419 533 — used to verify the right listing
-  var CACHE_KEY = 'agReviewsV1';
-  var CACHE_MS = 12 * 60 * 60 * 1000;
+  var API_KEY  = 'PASTE_YOUR_GOOGLE_API_KEY_HERE';   // <<< ENTER KEY HERE <<<
+
+  // Optional: paste the business's Place ID (starts with "ChIJ...") to skip the
+  // search step. Leave as '' to find the listing by name + phone number instead.
+  var PLACE_ID = '';
+
+  var SEARCH_TEXT = 'AG Doors garage door repairs Gold Coast';
+  var PHONE_LAST9 = '411419533';       // 0411 419 533 — used to verify the right listing
   var AUTOPLAY_MS = 5500;
 
-  var section = document.getElementById('reviews');
-  var track = document.getElementById('reviewsTrack');
+  var section  = document.getElementById('reviews');
+  var track    = document.getElementById('reviewsTrack');
   var dotsWrap = document.getElementById('reviewsDots');
-  var summary = document.getElementById('reviewsSummary');
+  var summary  = document.getElementById('reviewsSummary');
   var carousel = document.getElementById('reviewsCarousel');
-  var allBtn = document.getElementById('reviewsAllBtn');
+  var allBtn   = document.getElementById('reviewsAllBtn');
+  var attrib   = document.getElementById('reviewsAttribution');
   if (!section || !track || !carousel) return;
+  if (!API_KEY || API_KEY.indexOf('PASTE_') === 0) return;   // no key yet → fallback only
 
   var STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3 6 6 1-4.5 4.5 1 6-5.5-3-5.5 3 1-6L3 9l6-1z"/></svg>';
-
   function starsHtml(n){
     var out = '';
     for (var i = 0; i < 5; i++) out += i < Math.round(n) ? STAR : STAR.replace('<svg', '<svg class="off"');
     return out;
   }
-
   function digits(s){ return String(s || '').replace(/\D/g, ''); }
 
-  function cacheGet(){
-    try {
-      var raw = localStorage.getItem(CACHE_KEY);
-      if (!raw) return null;
-      var obj = JSON.parse(raw);
-      if (obj && Date.now() - obj.t < CACHE_MS) return obj.d;
-    } catch (e) {}
-    return null;
+  /* ---------- load the Maps JS API (only when the section is near the screen) ---------- */
+  var started = false;
+  function start(){
+    if (started) return; started = true;
+    window.gm_authFailure = function(){ /* key/referrer rejected → keep fallback */ };
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(API_KEY) +
+            '&v=weekly&loading=async&callback=__agReviewsMapsReady';
+    window.__agReviewsMapsReady = function(){
+      google.maps.importLibrary('places').then(fetchPlace).then(render).catch(function(){});
+    };
+    s.onerror = function(){};
+    document.head.appendChild(s);
   }
-  function cacheSet(d){
-    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ t: Date.now(), d: d })); } catch (e) {}
-  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      if (entries[0].isIntersecting) { io.disconnect(); start(); }
+    }, { rootMargin: '500px 0px' });
+    io.observe(section);
+  } else { start(); }
 
-  var FIELDS = 'id,displayName,nationalPhoneNumber,internationalPhoneNumber,rating,userRatingCount,googleMapsUri,reviews';
+  /* ---------- get the place + reviews ---------- */
+  var FIELDS = ['displayName', 'rating', 'userRatingCount', 'reviews', 'googleMapsURI', 'nationalPhoneNumber'];
 
-  function normalise(p){
-    var reviews = (p.reviews || []).map(function(r){
-      var text = (r.text && r.text.text) || (r.originalText && r.originalText.text) || '';
-      return {
-        rating: r.rating || 5,
-        text: text,
-        when: r.relativePublishTimeDescription || '',
-        name: (r.authorAttribution && r.authorAttribution.displayName) || 'Google user',
-        uri: (r.authorAttribution && r.authorAttribution.uri) || '',
-        photo: (r.authorAttribution && r.authorAttribution.photoUri) || ''
-      };
-    }).filter(function(r){ return r.text.trim().length > 0; });
-    return { rating: p.rating || 0, count: p.userRatingCount || 0, mapsUri: p.googleMapsUri || '', reviews: reviews };
-  }
-
-  function load(){
-    var cached = cacheGet();
-    if (cached) return Promise.resolve(cached);
-
-    var req;
+  function fetchPlace(lib){
+    var Place = lib.Place;
     if (PLACE_ID) {
-      req = fetch('https://places.googleapis.com/v1/places/' + encodeURIComponent(PLACE_ID), {
-        headers: { 'X-Goog-Api-Key': API_KEY, 'X-Goog-FieldMask': FIELDS }
-      }).then(function(r){ if (!r.ok) throw new Error('place ' + r.status); return r.json(); });
-    } else {
-      req = fetch('https://places.googleapis.com/v1/places:searchText', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Goog-Api-Key': API_KEY,
-          'X-Goog-FieldMask': FIELDS.split(',').map(function(f){ return 'places.' + f; }).join(',')
-        },
-        body: JSON.stringify({ textQuery: QUERY, regionCode: 'AU', maxResultCount: 5 })
-      }).then(function(r){ if (!r.ok) throw new Error('search ' + r.status); return r.json(); })
-        .then(function(j){
-          var list = j.places || [];
-          for (var i = 0; i < list.length; i++) {
-            var ph = digits(list[i].nationalPhoneNumber) + ' ' + digits(list[i].internationalPhoneNumber);
-            if (ph.indexOf(PHONE_LAST9) !== -1) return list[i];
-          }
-          throw new Error('no verified match');
-        });
+      var p = new Place({ id: PLACE_ID });
+      return p.fetchFields({ fields: FIELDS }).then(function(){ return p; });
     }
-    return req.then(function(p){
-      var data = normalise(p);
-      if (data.reviews.length) cacheSet(data);
-      return data;
+    return Place.searchByText({
+      textQuery: SEARCH_TEXT,
+      fields: FIELDS,
+      region: 'au',
+      maxResultCount: 5
+    }).then(function(res){
+      var list = (res && res.places) || [];
+      for (var i = 0; i < list.length; i++) {
+        if (digits(list[i].nationalPhoneNumber).indexOf(PHONE_LAST9) !== -1) return list[i];
+      }
+      throw new Error('no verified match');
     });
   }
 
-  function render(data){
-    if (!data.reviews.length) return;
-    if (data.mapsUri && allBtn) allBtn.href = data.mapsUri;
+  /* ---------- render ---------- */
+  function render(place){
+    var reviews = (place.reviews || []).filter(function(r){
+      return r && r.text && String(r.text).trim().length > 0;
+    });
+    if (!reviews.length) return;
 
-    if (summary && data.rating) {
-      summary.innerHTML = '';
-      var wrap = document.createElement('span');
-      wrap.className = 'reviews-summary-row';
-      wrap.innerHTML = '<span class="reviews-stars">' + starsHtml(data.rating) + '</span>';
+    if (place.googleMapsURI && allBtn) allBtn.href = place.googleMapsURI;
+
+    if (summary && place.rating) {
+      summary.textContent = '';
+      var row = document.createElement('span');
+      row.className = 'reviews-summary-row';
+      var st = document.createElement('span');
+      st.className = 'reviews-stars';
+      st.innerHTML = starsHtml(place.rating);
       var txt = document.createElement('span');
-      txt.textContent = data.rating.toFixed(1) + ' on Google' + (data.count ? ' · ' + data.count + ' reviews' : '');
-      wrap.appendChild(txt);
-      summary.appendChild(wrap);
+      txt.textContent = Number(place.rating).toFixed(1) + ' on Google' +
+        (place.userRatingCount ? ' · ' + place.userRatingCount + ' reviews' : '');
+      row.appendChild(st); row.appendChild(txt);
+      summary.appendChild(row);
     }
 
-    track.innerHTML = '';
-    data.reviews.forEach(function(r, i){
+    track.textContent = '';
+    reviews.forEach(function(r, i){
+      var a = r.authorAttribution || {};
       var card = document.createElement('article');
       card.className = 'review-card';
-      card.setAttribute('aria-label', 'Review ' + (i + 1) + ' of ' + data.reviews.length);
+      card.setAttribute('aria-label', 'Review ' + (i + 1) + ' of ' + reviews.length);
 
       var stars = document.createElement('div');
       stars.className = 'reviews-stars';
-      stars.innerHTML = starsHtml(r.rating);
+      stars.innerHTML = starsHtml(r.rating || 5);
       card.appendChild(stars);
 
       var p = document.createElement('p');
       p.className = 'review-text';
-      p.textContent = r.text;
+      p.textContent = String(r.text);
       card.appendChild(p);
 
       var who = document.createElement('div');
       who.className = 'review-who';
-      if (r.photo) {
+      if (a.photoURI) {
         var img = document.createElement('img');
-        img.src = r.photo; img.alt = ''; img.width = 36; img.height = 36;
+        img.src = a.photoURI; img.alt = ''; img.width = 36; img.height = 36;
         img.loading = 'lazy'; img.referrerPolicy = 'no-referrer';
         who.appendChild(img);
       }
       var meta = document.createElement('div');
-      var name = document.createElement(r.uri ? 'a' : 'span');
+      var name = document.createElement(a.uri ? 'a' : 'span');
       name.className = 'review-name';
-      name.textContent = r.name;
-      if (r.uri) { name.href = r.uri; name.target = '_blank'; name.rel = 'noopener'; }
+      name.textContent = a.displayName || 'Google user';
+      if (a.uri) { name.href = a.uri; name.target = '_blank'; name.rel = 'noopener'; }
       meta.appendChild(name);
-      if (r.when) {
+      if (r.relativePublishTimeDescription) {
         var when = document.createElement('span');
         when.className = 'review-when';
-        when.textContent = r.when;
+        when.textContent = r.relativePublishTimeDescription + ' · on Google';
         meta.appendChild(when);
       }
       who.appendChild(meta);
@@ -167,26 +162,26 @@
     });
 
     carousel.hidden = false;
-    if (summary) summary.hidden = false;
-    initCarousel(data.reviews.length);
+    if (attrib) attrib.hidden = false;
+    initCarousel(reviews.length);
   }
 
+  /* ---------- carousel (scroll-snap + auto-advance) ---------- */
   function initCarousel(n){
     var cards = track.children;
     var dots = [];
-    dotsWrap.innerHTML = '';
+    dotsWrap.textContent = '';
     for (var i = 0; i < n; i++) {
       (function(i){
         var b = document.createElement('button');
         b.type = 'button';
         b.className = 'reviews-dot';
         b.setAttribute('aria-label', 'Show review ' + (i + 1));
-        b.addEventListener('click', function(){ goTo(i); pauseFor(12000); });
+        b.addEventListener('click', function(){ goTo(i); resumeAt = Date.now() + 12000; });
         dotsWrap.appendChild(b);
         dots.push(b);
       })(i);
     }
-
     function step(){ return cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth; }
     function maxScroll(){ return track.scrollWidth - track.clientWidth; }
     function current(){ return Math.min(n - 1, Math.round(track.scrollLeft / (step() || 1))); }
@@ -201,26 +196,21 @@
     markDots();
 
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce || maxScroll() <= 2 && n <= 1) return;
-
+    if (reduce) return;
     var paused = false, resumeAt = 0;
-    function pauseFor(ms){ resumeAt = Date.now() + ms; }
     ['mouseenter', 'focusin', 'touchstart'].forEach(function(ev){
       carousel.addEventListener(ev, function(){ paused = true; }, { passive: true });
     });
     ['mouseleave', 'focusout'].forEach(function(ev){
-      carousel.addEventListener(ev, function(){ paused = false; pauseFor(2500); });
+      carousel.addEventListener(ev, function(){ paused = false; resumeAt = Date.now() + 2500; });
     });
-    carousel.addEventListener('touchend', function(){ paused = false; pauseFor(6000); }, { passive: true });
+    carousel.addEventListener('touchend', function(){ paused = false; resumeAt = Date.now() + 6000; }, { passive: true });
 
     setInterval(function(){
       if (paused || document.hidden || Date.now() < resumeAt) return;
-      if (maxScroll() <= 2) return;                        // everything already visible
-      var atEnd = track.scrollLeft >= maxScroll() - 2;
-      if (atEnd) track.scrollTo({ left: 0, behavior: 'smooth' });
+      if (maxScroll() <= 2) return;
+      if (track.scrollLeft >= maxScroll() - 2) track.scrollTo({ left: 0, behavior: 'smooth' });
       else goTo(current() + 1);
     }, AUTOPLAY_MS);
   }
-
-  load().then(render).catch(function(){ /* fall back to heading + button only */ });
 })();
