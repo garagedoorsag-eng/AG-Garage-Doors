@@ -120,8 +120,8 @@
       st.className = 'reviews-stars';
       st.innerHTML = starsHtml(place.rating);
       var txt = document.createElement('span');
-      txt.textContent = Number(place.rating).toFixed(1) + ' on Google' +
-        '';
+      var rt = Number(place.rating);
+      txt.textContent = 'Rated ' + (rt % 1 ? rt.toFixed(1) : rt) + ' stars on Google!';
       row.appendChild(st); row.appendChild(txt);
       summary.appendChild(row);
     }
