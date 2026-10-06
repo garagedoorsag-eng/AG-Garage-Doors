@@ -4,7 +4,7 @@
    (google.maps.places.Place) to show the business's Google
    reviews in an auto-advancing carousel inside #reviews.
 
-   >>> ENTER YOUR API KEY ON THE LINE MARKED  <<< AIzaSyBSoVjdShnA8coDTJJBHEtYk1xbKltm5C4  <<<
+   >>> ENTER YOUR API KEY ON THE LINE MARKED  <<< ENTER KEY HERE  <<<
    The key must be restricted in Google Cloud Console to:
      - HTTP referrers: https://aggaragedoors.com.au/*
                        https://www.aggaragedoors.com.au/*
@@ -23,7 +23,7 @@
    Google returns at most 5 reviews through this API.
    ============================================================ */
 (function(){
-  var API_KEY  = 'PASTE_YOUR_GOOGLE_API_KEY_HERE';   // <<< ENTER KEY HERE <<<
+  var API_KEY  = 'AIzaSyBSoVjdShnA8coDTJJBHEtYk1xbKltm5C4';   // <<< ENTER KEY HERE <<<
 
   // Optional: paste the business's Place ID (starts with "ChIJ...") to skip the
   // search step. Leave as '' to find the listing by name + phone number instead.
@@ -41,7 +41,7 @@
   var allBtn   = document.getElementById('reviewsAllBtn');
   var attrib   = document.getElementById('reviewsAttribution');
   if (!section || !track || !carousel) return;
-  if (!API_KEY || API_KEY.indexOf('PASTE_') === 0) return;   // no key yet → fallback only
+  if (!API_KEY || API_KEY.indexOf('PASTE_') === 0) { console.warn('[AG reviews] No API key set in assets/reviews.js'); return; }
 
   var STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3 6 6 1-4.5 4.5 1 6-5.5-3-5.5 3 1-6L3 9l6-1z"/></svg>';
   function starsHtml(n){
@@ -55,15 +55,15 @@
   var started = false;
   function start(){
     if (started) return; started = true;
-    window.gm_authFailure = function(){ /* key/referrer rejected → keep fallback */ };
+    window.gm_authFailure = function(){ console.warn('[AG reviews] Google rejected the API key or this website address. Check the key restrictions (website addresses) and that Maps JavaScript API + Places API (New) are enabled and billing is on.'); };
     var s = document.createElement('script');
     s.async = true;
     s.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(API_KEY) +
             '&v=weekly&loading=async&callback=__agReviewsMapsReady';
     window.__agReviewsMapsReady = function(){
-      google.maps.importLibrary('places').then(fetchPlace).then(render).catch(function(){});
+      google.maps.importLibrary('places').then(fetchPlace).then(render).catch(function(e){ console.warn('[AG reviews] Could not load reviews:', e && (e.message || e)); });
     };
-    s.onerror = function(){};
+    s.onerror = function(){ console.warn('[AG reviews] Could not load the Google Maps script (blocked or offline).'); };
     document.head.appendChild(s);
   }
   if ('IntersectionObserver' in window) {
@@ -92,6 +92,9 @@
       for (var i = 0; i < list.length; i++) {
         if (digits(list[i].nationalPhoneNumber).indexOf(PHONE_LAST9) !== -1) return list[i];
       }
+      console.warn('[AG reviews] Search found ' + list.length + ' places but none with phone 0411 419 533: ' +
+        list.map(function(x){ return (x.displayName || '?') + ' (' + (x.nationalPhoneNumber || 'no phone') + ')'; }).join(', ') +
+        '. Add your Place ID to PLACE_ID in assets/reviews.js.');
       throw new Error('no verified match');
     });
   }
