@@ -59,7 +59,7 @@
     var s = document.createElement('script');
     s.async = true;
     s.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(API_KEY) +
-            '&v=weekly&loading=async&callback=__agReviewsMapsReady';
+            '&v=weekly&loading=async&language=en&callback=__agReviewsMapsReady';
     window.__agReviewsMapsReady = function(){
       google.maps.importLibrary('places').then(fetchPlace).then(render).catch(function(e){ console.warn('[AG reviews] Could not load reviews:', e && (e.message || e)); });
     };
@@ -77,6 +77,8 @@
 
   /* ---------- get the place + reviews ---------- */
   var FIELDS = ['displayName', 'rating', 'userRatingCount', 'reviews', 'googleMapsURI', 'nationalPhoneNumber'];
+  // NOTE: the language is fixed (language=en above) and never taken from navigator.language.
+  // Review text is always taken from review.originalText (as written by the reviewer).
 
   function fetchPlace(lib){
     var Place = lib.Place;
@@ -104,7 +106,7 @@
   /* ---------- render ---------- */
   function render(place){
     var reviews = (place.reviews || []).filter(function(r){
-      return r && r.text && String(r.text).trim().length > 0;
+      return r && (r.originalText || r.text) && String(r.originalText || r.text).trim().length > 0;
     });
     if (!reviews.length) return;
 
@@ -138,7 +140,9 @@
 
       var p = document.createElement('p');
       p.className = 'review-text';
-      p.textContent = String(r.text);
+      p.textContent = String(r.originalText || r.text);
+      var lang = r.originalTextLanguageCode || r.textLanguageCode;
+      if (lang) p.setAttribute('lang', lang);
       card.appendChild(p);
 
       var who = document.createElement('div');
