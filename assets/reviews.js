@@ -121,7 +121,7 @@
       st.innerHTML = starsHtml(place.rating);
       var txt = document.createElement('span');
       txt.textContent = Number(place.rating).toFixed(1) + ' on Google' +
-        (place.userRatingCount ? ' · ' + place.userRatingCount + ' reviews' : '');
+        '';
       row.appendChild(st); row.appendChild(txt);
       summary.appendChild(row);
     }
@@ -171,7 +171,7 @@
     });
 
     carousel.hidden = false;
-    if (attrib) attrib.hidden = false;
+    
     initCarousel(reviews.length);
   }
 

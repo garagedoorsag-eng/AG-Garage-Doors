@@ -1928,7 +1928,9 @@ a:focus-visible, button:focus-visible{
    Compact, Google-style band (light card look, Google colours).
    ============================================================ */
 .reviews{ background:#f1f3f4; padding:26px 0 22px; border-top:1px solid #dadce0; border-bottom:1px solid #dadce0; font-family:Roboto,"Segoe UI",Arial,sans-serif; }
-.reviews-wrap{ max-width:1040px; }
+.reviews-wrap{ max-width:1040px; position:relative; }
+.reviews-foot{ display:flex; justify-content:center; }
+@media (min-width:601px){ .reviews-foot{ position:absolute; top:0; right:24px; } }
 .reviews-head{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:16px; }
 .g-logo{ width:34px; height:34px; flex-shrink:0; }
 .reviews-head-text{ flex:1; min-width:180px; }
@@ -1969,4 +1971,15 @@ a.review-name:hover{ text-decoration:underline; }
 .reviews-dot.active{ background:#1a73e8; transform:scale(1.2); }
 .reviews-attribution{ text-align:center; margin:10px 0 0; font-size:0.75rem; color:#70757a; }
 .reviews-attribution strong{ color:#5f6368; font-weight:500; }
-@media (max-width:600px){ .reviews-gbtn{ width:100%; text-align:center; } .reviews-head{ gap:10px; } }
+@media (max-width:600px){
+  .reviews{ padding:16px 0 14px; }
+  .reviews-head{ gap:10px; margin-bottom:10px; }
+  .g-logo{ width:28px; height:28px; }
+  .reviews-title{ font-size:1.02rem; }
+  .reviews-summary{ font-size:0.82rem; }
+  .review-card{ padding:12px 14px; gap:6px; }
+  .review-text{ -webkit-line-clamp:4; font-size:0.86rem; line-height:1.5; }
+  .reviews-dots{ margin-top:8px; }
+  .reviews-foot{ margin-top:10px; }
+  .reviews-gbtn{ width:100%; text-align:center; padding:9px 14px; }
+}
